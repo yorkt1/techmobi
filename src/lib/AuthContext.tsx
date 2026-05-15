@@ -1,31 +1,39 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-interface AuthError {
-  type: 'user_not_registered' | 'auth_required' | string;
-  message?: string;
-}
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { User } from '@supabase/supabase-js';
+import { supabase } from './supabase';
 
 interface AuthContextType {
-  user: null | Record<string, unknown>;
+  user: User | null;
   isLoadingAuth: boolean;
   isLoadingPublicSettings: boolean;
-  authError: AuthError | null;
+  authError: null;
   navigateToLogin: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  isLoadingAuth: false,
+  isLoadingAuth: true,
   isLoadingPublicSettings: false,
   authError: null,
   navigateToLogin: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user] = useState<null | Record<string, unknown>>(null);
-  const [isLoadingAuth] = useState(false);
-  const [isLoadingPublicSettings] = useState(false);
-  const [authError] = useState<AuthError | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+      setIsLoadingAuth(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const navigateToLogin = () => {
     window.location.href = '/login';
@@ -35,9 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider value={{
       user,
       isLoadingAuth,
-      isLoadingPublicSettings,
-      authError,
-      navigateToLogin
+      isLoadingPublicSettings: false,
+      authError: null,
+      navigateToLogin,
     }}>
       {children}
     </AuthContext.Provider>

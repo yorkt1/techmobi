@@ -106,7 +106,7 @@ export default function AdminProperties() {
     value: form[key] ?? "",
     onChange: (e) => setForm({ ...form, [key]: e.target.value }),
   });
-  const generateFictionalProperties = () => {
+  const generateFictionalProperties = async () => {
     const mocks = [
       {
         title: "Apartamento de Alto Padrão no Centro",
@@ -118,7 +118,6 @@ export default function AdminProperties() {
         bedrooms: 3,
         bathrooms: 2,
         city: "São Paulo",
-        state: "SP",
         neighborhood: "Centro",
         image_url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=800",
         featured: true,
@@ -133,7 +132,6 @@ export default function AdminProperties() {
         bedrooms: 4,
         bathrooms: 5,
         city: "Campinas",
-        state: "SP",
         neighborhood: "Alphaville",
         image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800",
         featured: true,
@@ -141,14 +139,13 @@ export default function AdminProperties() {
       {
         title: "Studio Moderno Próximo ao Metrô",
         description: "Studio compacto e inteligente, ideal para jovens profissionais. Condomínio com coworking e lavanderia.",
-        type: "apartamento",
+        type: "kitnet",
         transaction: "aluguel",
         price: 2500,
         area: 45,
         bedrooms: 1,
         bathrooms: 1,
         city: "São Paulo",
-        state: "SP",
         neighborhood: "Pinheiros",
         image_url: "https://images.unsplash.com/photo-1502672260266-1c1e5250-a92c?auto=format&fit=crop&q=80&w=800",
         featured: false,
@@ -156,14 +153,13 @@ export default function AdminProperties() {
       {
         title: "Cobertura Duplex Incrível",
         description: "Cobertura maravilhosa com piscina, churrasqueira, deck de madeira e vista de tirar o fôlego.",
-        type: "apartamento",
+        type: "cobertura",
         transaction: "venda",
         price: 3200000,
         area: 280,
         bedrooms: 4,
         bathrooms: 4,
         city: "Rio de Janeiro",
-        state: "RJ",
         neighborhood: "Leblon",
         image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800",
         featured: true,
@@ -178,7 +174,6 @@ export default function AdminProperties() {
         bedrooms: 0,
         bathrooms: 0,
         city: "Sorocaba",
-        state: "SP",
         neighborhood: "Jardim Europa",
         image_url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800",
         featured: false,
@@ -193,20 +188,14 @@ export default function AdminProperties() {
         bedrooms: 0,
         bathrooms: 2,
         city: "Curitiba",
-        state: "PR",
         neighborhood: "Batel",
         image_url: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800",
         featured: false,
-      }
+      },
     ];
 
-    mocks.forEach(mock => {
-      base44.entities.Property.create({
-        ...mock,
-        created_date: new Date().toISOString()
-      });
-    });
-    queryClient.invalidateQueries({ queryKey: ["properties-all"] });
+    await Promise.all(mocks.map((mock) => base44.entities.Property.create(mock)));
+    qc.invalidateQueries({ queryKey: ["properties"] });
   };
 
   return (
