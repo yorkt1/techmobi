@@ -1,0 +1,40 @@
+{
+  "name": "Partner",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome do parceiro"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "URL do logotipo"
+    },
+    "website": {
+      "type": "string",
+      "description": "Site do parceiro"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "financiamento",
+        "construtora",
+        "cart\u00f3rio",
+        "advocacia",
+        "outros"
+      ],
+      "description": "Categoria do parceiro"
+    },
+    "description": {
+      "type": "string",
+      "description": "Breve descri\u00e7\u00e3o"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

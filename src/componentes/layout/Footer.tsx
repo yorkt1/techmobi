@@ -1,0 +1,162 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { Phone, Mail, MapPin, Lock, MessageCircle, Share2 } from "lucide-react";
+
+export default function Footer() {
+  return (
+    <footer className="footer-bg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-5">
+              <div
+                className="w-10 h-10 flex items-center justify-center rounded-sm bg-primary text-primary-foreground"
+              >
+                <span className="font-bold text-sm select-none">WK</span>
+              </div>
+              <div>
+                <p className="font-serif font-bold text-base text-foreground leading-none">Wagner Kaizer</p>
+                <p className="text-[10px] uppercase tracking-widest mt-0.5 text-muted-foreground">
+                  Consultoria Imobiliária
+                </p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+              Especialistas em imóveis residenciais e comerciais. Atendimento personalizado com compromisso e transparência.
+            </p>
+            {/* Social */}
+            <div className="flex gap-2">
+              {[
+                { label: "IG", href: "#", title: "Instagram" },
+                { label: "FB", href: "#", title: "Facebook" },
+                { label: "IN", href: "#", title: "LinkedIn" },
+              ].map(({ label, href, title }) => (
+                <a
+                  key={title}
+                  href={href}
+                  aria-label={title}
+                  className="w-9 h-9 rounded-sm flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-200 text-xs font-bold border border-border bg-secondary hover:bg-muted"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/70 mb-5">
+              Links Rápidos
+            </h4>
+            <ul className="space-y-3">
+              {[
+                { label: "Início", to: "/" },
+                { label: "Comprar imóvel", to: "/imoveis?transaction=venda" },
+                { label: "Alugar imóvel", to: "/imoveis?transaction=aluguel" },
+                { label: "Todos os imóveis", to: "/imoveis" },
+                { label: "Sobre nós", to: "/#sobre" },
+              ].map(({ label, to }) => (
+                <li key={label}>
+                  <Link
+                    to={to}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 group"
+                  >
+                    <span
+                      className="w-4 h-px transition-all duration-200 group-hover:w-6 bg-primary"
+                    />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/70 mb-5">
+              Contato
+            </h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <div
+                  className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-secondary border border-border text-muted-foreground"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Telefone / WhatsApp</p>
+                  <a href="tel:+554891932966" className="text-sm text-foreground hover:text-primary transition-colors font-medium">
+                    (48) 9193-2966
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <div
+                  className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-secondary border border-border text-muted-foreground"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">E-mail</p>
+                  <a href="mailto:contato@wagnerkaizer.com.br" className="text-sm text-foreground hover:text-primary transition-colors font-medium">
+                    contato@wagnerkaizer.com.br
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <div
+                  className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-secondary border border-border text-muted-foreground"
+                >
+                  <MapPin className="w-3.5 h-3.5" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Endereço</p>
+                  <p className="text-sm text-foreground font-medium">Rua Exemplo, 123 — Centro<br />São Paulo — SP</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* CTA Column */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-foreground/70 mb-5">
+              Atendimento
+            </h4>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+              Fale diretamente com um de nossos corretores especializados e receba atendimento personalizado.
+            </p>
+            <a
+              href="https://wa.me/554891932966"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 text-sm font-semibold rounded-sm transition-all duration-200 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Falar no WhatsApp
+            </a>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="w-full h-px bg-border my-10" />
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Wagner Kaizer Consultoria Imobiliária. Todos os direitos reservados. CRECI 71853 F
+          </p>
+          <Link
+            to="/admin"
+            className="flex items-center gap-1.5 text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+          >
+            <Lock className="w-3 h-3" />
+            Área do corretor
+          </Link>
+        </div>
+      </div>
+    </footer>
+  );
+}

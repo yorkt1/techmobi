@@ -1,0 +1,78 @@
+{
+  "name": "Property",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "T\u00edtulo do im\u00f3vel"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "apartamento",
+        "casa",
+        "terreno",
+        "comercial",
+        "cobertura",
+        "kitnet"
+      ],
+      "description": "Tipo do im\u00f3vel"
+    },
+    "transaction": {
+      "type": "string",
+      "enum": [
+        "venda",
+        "aluguel"
+      ],
+      "description": "Tipo de transa\u00e7\u00e3o"
+    },
+    "price": {
+      "type": "number",
+      "description": "Pre\u00e7o do im\u00f3vel"
+    },
+    "neighborhood": {
+      "type": "string",
+      "description": "Bairro"
+    },
+    "city": {
+      "type": "string",
+      "description": "Cidade"
+    },
+    "bedrooms": {
+      "type": "number",
+      "description": "Quantidade de quartos"
+    },
+    "bathrooms": {
+      "type": "number",
+      "description": "Quantidade de banheiros"
+    },
+    "garages": {
+      "type": "number",
+      "description": "Vagas de garagem"
+    },
+    "area": {
+      "type": "number",
+      "description": "\u00c1rea em m\u00b2"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o detalhada do im\u00f3vel"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL da imagem principal"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Im\u00f3vel em destaque"
+    }
+  },
+  "required": [
+    "title",
+    "type",
+    "transaction",
+    "price",
+    "city"
+  ]
+}
