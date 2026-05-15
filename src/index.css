@@ -91,9 +91,9 @@
 
   /* Custom scrollbar */
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--navy-900); }
-  ::-webkit-scrollbar-thumb { background: var(--navy-600); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--slate-500); }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
   /* Focus ring */
   :focus-visible {
@@ -141,8 +141,8 @@
     border-color: var(--slate-500);
   }
   select option {
-    background: var(--navy-800);
-    color: #e6f1ff;
+    background: #fff;
+    color: hsl(222 47% 11%);
   }
 }
 
@@ -223,16 +223,16 @@
 
   /* ── Property Card ── */
   .property-card {
-    background: var(--navy-700);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #fff;
+    border: 1px solid hsl(var(--border));
     border-radius: 2px;
     overflow: hidden;
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
   .property-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(197, 160, 89, 0.25);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(197, 160, 89, 0.1);
+    border-color: hsl(var(--primary) / 0.2);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
   }
   .property-card .card-img {
     @apply relative overflow-hidden;
@@ -253,14 +253,14 @@
     border-radius: 2px;
   }
   .badge-slate {
-    background: rgba(197, 160, 89, 0.15);
-    color: var(--slate-400);
-    border: 1px solid rgba(197, 160, 89, 0.3);
+    background: rgba(100, 116, 139, 0.12);
+    color: var(--slate-600);
+    border: 1px solid rgba(100, 116, 139, 0.25);
   }
   .badge-navy {
-    background: rgba(255, 255, 255, 0.08);
-    color: #CCD6F6;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
   }
 
   /* ── Inputs ── */
@@ -330,7 +330,7 @@
 
 /* Skeleton shimmer */
 .skeleton {
-  background: linear-gradient(90deg, var(--navy-700) 25%, var(--navy-600) 50%, var(--navy-700) 75%);
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 2px;
@@ -338,9 +338,9 @@
 
 /* ─── Header Specifics ───────────────────────────────────── */
 .header-scrolled {
-  background: rgba(0, 21, 41, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  box-shadow: 0 1px 0 rgba(197, 160, 89, 0.15), 0 4px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 0 hsl(var(--border)), 0 4px 24px rgba(0,0,0,0.06);
 }
 
 /* ─── Hero Section ───────────────────────────────────────── */

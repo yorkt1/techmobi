@@ -54,16 +54,19 @@ export default function PropertyCard({ property }: { property: Property }) {
             className="badge text-xs font-semibold px-2.5 py-1 rounded-sm"
             style={{
               background: property.transaction === "venda"
-                ? "rgba(197,160,89,0.15)"
-                : "rgba(100,155,255,0.15)",
-              color: property.transaction === "venda" ? "#94a3b8" : "#82b4ff",
-              border: `1px solid ${property.transaction === "venda" ? "rgba(197,160,89,0.3)" : "rgba(100,155,255,0.3)"}`,
+                ? "rgba(20,83,45,0.85)"
+                : "rgba(29,78,216,0.85)",
+              color: "#fff",
+              border: "none",
             }}
           >
             {property.transaction === "venda" ? "Venda" : "Aluguel"}
           </span>
           {property.type && (
-            <span className="badge badge-navy rounded-sm">
+            <span
+              className="badge rounded-sm"
+              style={{ background: "rgba(0,0,0,0.55)", color: "#fff", border: "none" }}
+            >
               {formatType(property.type)}
             </span>
           )}
@@ -93,10 +96,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         )}
 
         {/* Stats */}
-        <div
-          className="flex items-center gap-4 mt-4 pt-4"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-        >
+        <div className="flex items-center gap-4 mt-4 pt-4 border-t border-border">
           {(property.bedrooms ?? 0) > 0 && (
             <div className="flex items-center gap-1.5 text-muted-foreground">
               <Bed className="w-4 h-4" />

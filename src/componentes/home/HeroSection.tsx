@@ -74,12 +74,12 @@ export default function HeroSection() {
                 <p className="text-2xl font-bold font-serif" style={{ color: "#64748b" }}>200+</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-widest mt-0.5">Imóveis</p>
               </div>
-              <div className="w-px h-10 bg-white/10" />
+              <div className="w-px h-10 bg-black/10" />
               <div className="text-center">
                 <p className="text-2xl font-bold font-serif" style={{ color: "#64748b" }}>10+</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-widest mt-0.5">Anos</p>
               </div>
-              <div className="w-px h-10 bg-white/10" />
+              <div className="w-px h-10 bg-black/10" />
               <div className="text-center">
                 <p className="text-2xl font-bold font-serif" style={{ color: "#64748b" }}>98%</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-widest mt-0.5">Satisfação</p>

@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Lock, MessageCircle, Share2 } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="footer-bg">
+    <footer className="footer-bg dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -113,8 +113,8 @@ export default function Footer() {
                   <MapPin className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground">Endereço</p>
-                  <p className="text-sm text-foreground font-medium">Rua Exemplo, 123 — Centro<br />São Paulo — SP</p>
+                  <p className="text-xs text-muted-foreground">Região de atuação</p>
+                  <p className="text-sm text-foreground font-medium">Santa Catarina — SC</p>
                 </div>
               </li>
             </ul>

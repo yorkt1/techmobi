@@ -46,7 +46,7 @@ export default function DifferentialsSection() {
         {/* Header */}
         <div className="text-center mb-14">
           <p className="text-sm font-semibold text-slate-600 tracking-wider uppercase mb-3">Nossos diferenciais</p>
-          <h2 className="text-3xl font-serif font-bold text-navy-900">Por que escolher a Wagner Kaizer</h2>
+          <h2 className="text-3xl font-serif font-bold text-navy-900">Por que escolher Wagner Kaizer</h2>
           <div className="w-24 h-0.5 mx-auto mt-5 bg-slate-500 opacity-60" />
         </div>
 

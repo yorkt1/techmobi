@@ -36,7 +36,7 @@ export default function RecentProperties() {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-sm overflow-hidden" style={{ background: "rgba(17,34,64,0.5)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div key={i} className="rounded-sm overflow-hidden border border-border bg-white">
                 <div className="skeleton aspect-[4/3] w-full" />
                 <div className="p-5 space-y-3">
                   <div className="skeleton h-7 w-32" />

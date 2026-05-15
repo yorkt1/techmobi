@@ -29,17 +29,17 @@ export default function CTASection() {
               <Sparkles className="w-4 h-4" style={{ color: "#64748b" }} />
             </div>
 
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground max-w-2xl mx-auto">
+            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-white max-w-2xl mx-auto">
               Precisa de ajuda para encontrar o imóvel ideal?
             </h2>
 
-            <p className="text-muted-foreground mt-4 max-w-lg mx-auto text-base leading-relaxed">
+            <p className="text-white/70 mt-4 max-w-lg mx-auto text-base leading-relaxed">
               Entre em contato e receba atendimento personalizado. Nosso corretor vai te ajudar em cada etapa do processo.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
               <a
-                href="https://wa.me/5511999999999"
+                href="https://wa.me/554891932966"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold rounded-sm transition-all duration-200"
@@ -61,11 +61,11 @@ export default function CTASection() {
                 Falar no WhatsApp
               </a>
               <a
-                href="tel:+5511999999999"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold rounded-sm text-muted-foreground hover:text-foreground transition-all duration-200"
-                style={{ border: "1px solid rgba(197,160,89,0.25)", background: "rgba(197,160,89,0.05)" }}
+                href="tel:+554891932966"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-semibold rounded-sm text-white/80 hover:text-white transition-all duration-200"
+                style={{ border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.05)" }}
               >
-                (11) 99999-9999
+                (48) 9193-2966
               </a>
             </div>
           </div>
