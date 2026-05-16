@@ -5,6 +5,7 @@ import AdminLayout from "./Dashboard";
 import { Button } from "@/componentes/ui/button";
 import { Input } from "@/componentes/ui/input";
 import { Textarea } from "@/componentes/ui/textarea";
+import ImageUpload from "@/componentes/ui/ImageUpload";
 import {
   Select,
   SelectContent,
@@ -106,97 +107,6 @@ export default function AdminProperties() {
     value: form[key] ?? "",
     onChange: (e) => setForm({ ...form, [key]: e.target.value }),
   });
-  const generateFictionalProperties = async () => {
-    const mocks = [
-      {
-        title: "Apartamento de Alto Padrão no Centro",
-        description: "Lindo apartamento recém reformado, com vista panorâmica, mobília de primeira linha e duas vagas de garagem.",
-        type: "apartamento",
-        transaction: "venda",
-        price: 850000,
-        area: 120,
-        bedrooms: 3,
-        bathrooms: 2,
-        city: "São Paulo",
-        neighborhood: "Centro",
-        image_url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=800",
-        featured: true,
-      },
-      {
-        title: "Casa de Condomínio Fechado",
-        description: "Casa espetacular com piscina privativa, área gourmet, 4 suítes e segurança 24h em bairro nobre.",
-        type: "casa",
-        transaction: "venda",
-        price: 2100000,
-        area: 350,
-        bedrooms: 4,
-        bathrooms: 5,
-        city: "Campinas",
-        neighborhood: "Alphaville",
-        image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800",
-        featured: true,
-      },
-      {
-        title: "Studio Moderno Próximo ao Metrô",
-        description: "Studio compacto e inteligente, ideal para jovens profissionais. Condomínio com coworking e lavanderia.",
-        type: "kitnet",
-        transaction: "aluguel",
-        price: 2500,
-        area: 45,
-        bedrooms: 1,
-        bathrooms: 1,
-        city: "São Paulo",
-        neighborhood: "Pinheiros",
-        image_url: "https://images.unsplash.com/photo-1502672260266-1c1e5250-a92c?auto=format&fit=crop&q=80&w=800",
-        featured: false,
-      },
-      {
-        title: "Cobertura Duplex Incrível",
-        description: "Cobertura maravilhosa com piscina, churrasqueira, deck de madeira e vista de tirar o fôlego.",
-        type: "cobertura",
-        transaction: "venda",
-        price: 3200000,
-        area: 280,
-        bedrooms: 4,
-        bathrooms: 4,
-        city: "Rio de Janeiro",
-        neighborhood: "Leblon",
-        image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800",
-        featured: true,
-      },
-      {
-        title: "Terreno em Bairro Planejado",
-        description: "Ótima oportunidade de investimento. Terreno plano, pronto para construir, com infraestrutura completa.",
-        type: "terreno",
-        transaction: "venda",
-        price: 150000,
-        area: 400,
-        bedrooms: 0,
-        bathrooms: 0,
-        city: "Sorocaba",
-        neighborhood: "Jardim Europa",
-        image_url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800",
-        featured: false,
-      },
-      {
-        title: "Sala Comercial em Prédio Executivo",
-        description: "Sala comercial espaçosa com ar-condicionado central, 2 lavabos, persianas automatizadas e vaga.",
-        type: "comercial",
-        transaction: "aluguel",
-        price: 4500,
-        area: 80,
-        bedrooms: 0,
-        bathrooms: 2,
-        city: "Curitiba",
-        neighborhood: "Batel",
-        image_url: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800",
-        featured: false,
-      },
-    ];
-
-    await Promise.all(mocks.map((mock) => base44.entities.Property.create(mock)));
-    qc.invalidateQueries({ queryKey: ["properties"] });
-  };
 
   return (
     <AdminLayout>
@@ -206,11 +116,6 @@ export default function AdminProperties() {
           <p className="text-sm text-muted-foreground mt-1">{properties.length} imóveis cadastrados</p>
         </div>
         <div className="flex gap-2">
-          {properties.length === 0 && (
-            <Button onClick={generateFictionalProperties} variant="outline" className="gap-2 rounded-sm border-slate-300 hover:bg-slate-100" size="sm">
-              <Plus className="w-4 h-4" /> Gerar Imóveis Fictícios
-            </Button>
-          )}
           <Button onClick={openCreate} className="gap-2 rounded-sm bg-navy-900 text-white hover:bg-navy-800" size="sm">
             <Plus className="w-4 h-4" /> Novo imóvel
           </Button>
@@ -343,8 +248,11 @@ export default function AdminProperties() {
               <Input {...field("area")} type="number" placeholder="0" className="rounded-sm" />
             </div>
             <div className="sm:col-span-2">
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">URL da Foto</label>
-              <Input {...field("image_url")} placeholder="https://..." className="rounded-sm" />
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">Foto do Imóvel</label>
+              <ImageUpload
+                value={form.image_url ?? ""}
+                onChange={(url) => setForm({ ...form, image_url: url })}
+              />
             </div>
             <div className="sm:col-span-2">
               <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">Descrição</label>
