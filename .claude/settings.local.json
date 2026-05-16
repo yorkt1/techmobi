@@ -6,7 +6,8 @@
       "Bash(Format-Table Name, PSIsContainer)",
       "Bash(npm install *)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(curl -s \"https://mddajzzsaooodyqriodl.supabase.co/rest/v1/properties?select=id&limit=1\" -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kZGFqenpzYW9vb2R5cXJpb2RsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjQ3NzgsImV4cCI6MjA5NDIwMDc3OH0.Eta0i9ZvXZRo5fWY7gWW2ixA-YRRdFsl0KGOeZEfbss\" -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kZGFqenpzYW9vb2R5cXJpb2RsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjQ3NzgsImV4cCI6MjA5NDIwMDc3OH0.Eta0i9ZvXZRo5fWY7gWW2ixA-YRRdFsl0KGOeZEfbss\")"
     ]
   }
 }
