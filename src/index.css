@@ -241,11 +241,11 @@
     aspect-ratio: 4 / 3;
   }
   .property-card .card-img img {
-    @apply w-full h-full object-cover;
+    @apply w-full h-full object-contain bg-slate-100;
     transition: transform 0.4s ease;
   }
   .property-card:hover .card-img img {
-    transform: scale(1.06);
+    transform: scale(1.03);
   }
   .property-card .card-body { @apply p-5; }
 

@@ -9,6 +9,20 @@
 -- ============================================================
 -- ALTER TABLE properties ADD COLUMN IF NOT EXISTS code TEXT;
 -- ALTER TABLE properties ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}';
+--
+-- Se a tabela subscribers já existir, adicione as colunas:
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS phone TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS cpf TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS tipo_imovel TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS objetivo TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS localizacao TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS quartos TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS vagas TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS area TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS faixa TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS pagamento TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS urgencia TEXT;
+-- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS observacoes TEXT;
 -- ============================================================
 
 -- Tabela de imóveis
@@ -32,6 +46,31 @@ CREATE TABLE IF NOT EXISTS properties (
   created_at  TIMESTAMPTZ DEFAULT now(),
   updated_at  TIMESTAMPTZ DEFAULT now()
 );
+
+-- Tabela de leads / pretensão de compra
+CREATE TABLE IF NOT EXISTS subscribers (
+  id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  name        TEXT        NOT NULL,
+  email       TEXT,
+  phone       TEXT,
+  cpf         TEXT,
+  tipo_imovel TEXT,
+  objetivo    TEXT,
+  localizacao TEXT,
+  quartos     TEXT,
+  vagas       TEXT,
+  area        TEXT,
+  faixa       TEXT,
+  pagamento   TEXT,
+  urgencia    TEXT,
+  observacoes TEXT,
+  created_at  TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Inserção pública - subscribers" ON subscribers FOR INSERT WITH CHECK (true);
+CREATE POLICY "Leitura admin - subscribers"    ON subscribers FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Deleção admin - subscribers"    ON subscribers FOR DELETE USING (auth.role() = 'authenticated');
 
 -- Tabela de parceiros
 CREATE TABLE IF NOT EXISTS partners (

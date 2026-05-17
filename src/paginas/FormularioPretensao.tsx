@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Header from "@/componentes/layout/Header";
 import Footer from "@/componentes/layout/Footer";
-import { MessageCircle, ShieldCheck } from "lucide-react";
+import { base44 } from "@/api/base44Client";
+import { MessageCircle, ShieldCheck, Loader2 } from "lucide-react";
 
 type FormData = {
   // 1. Dados pessoais
@@ -143,6 +144,8 @@ function buildWhatsAppMessage(f: FormData): string {
 export default function FormularioPretensao() {
   const [form, setForm] = useState<FormData>(INITIAL);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   const set = (field: keyof FormData) => (value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -160,11 +163,38 @@ export default function FormularioPretensao() {
     form.pagamento &&
     form.urgencia;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValid) return;
+    if (!isValid || sending) return;
+    setSending(true);
+    setSaveError("");
+
+    try {
+      await base44.entities.Subscriber.create({
+        name:        form.nome,
+        email:       form.email || null,
+        phone:       form.whatsapp,
+        cpf:         form.cpf || null,
+        tipo_imovel: form.tipo === "outro" ? form.tipoOutro : form.tipo,
+        objetivo:    form.objetivo,
+        localizacao: form.localizacao || null,
+        quartos:     form.quartos || null,
+        vagas:       form.vagas || null,
+        area:        form.area || null,
+        faixa:       form.faixa,
+        pagamento:   form.pagamento,
+        urgencia:    form.urgencia,
+        observacoes: form.observacoes || null,
+      });
+    } catch (err) {
+      // Se o banco falhar, ainda abre o WhatsApp — não bloqueia o usuário
+      console.error("Erro ao salvar lead:", err);
+      setSaveError("Não foi possível registrar no sistema, mas seu WhatsApp será aberto normalmente.");
+    }
+
     const text = encodeURIComponent(buildWhatsAppMessage(form));
     window.open(`https://wa.me/554891932966?text=${text}`, "_blank");
+    setSending(false);
     setSubmitted(true);
   };
 
@@ -425,18 +455,24 @@ export default function FormularioPretensao() {
               </p>
             </div>
 
+            {saveError && (
+              <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-sm px-4 py-2">
+                {saveError}
+              </p>
+            )}
+
             {/* Submit */}
             <button
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || sending}
               className="w-full flex items-center justify-center gap-2 py-4 text-sm font-semibold rounded-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{
-                background: isValid ? "hsl(222,47%,11%)" : undefined,
-                color: "#fff",
-              }}
+              style={{ background: "hsl(222,47%,11%)", color: "#fff" }}
             >
-              <MessageCircle className="w-4 h-4" />
-              Enviar pelo WhatsApp
+              {sending ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Enviando…</>
+              ) : (
+                <><MessageCircle className="w-4 h-4" /> Enviar pelo WhatsApp</>
+              )}
             </button>
           </form>
         </div>

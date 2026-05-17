@@ -216,7 +216,7 @@ export default function AdminProperties() {
                       <div className="flex items-center gap-3">
                         <div className="w-16 h-12 rounded-sm overflow-hidden border border-border shrink-0 bg-slate-100">
                           {thumb ? (
-                            <img src={thumb} alt={p.title} className="w-full h-full object-cover" />
+                            <img src={thumb} alt={p.title} className="w-full h-full object-contain" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-300">
                               <Maximize2 className="w-4 h-4" />
