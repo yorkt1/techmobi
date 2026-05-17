@@ -351,6 +351,7 @@ export default function FormularioPretensao() {
                       { label: "Até R$ 350 mil", value: "Até R$ 350 mil" },
                       { label: "R$ 350–600 mil", value: "R$ 350–600 mil" },
                       { label: "+ R$ 600 mil", value: "+ R$ 600 mil" },
+                      { label: "Alto Padrão", value: "Alto Padrão" },
                     ]}
                   />
                 </Field>
