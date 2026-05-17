@@ -19,7 +19,7 @@ export default function Footer() {
                 <span className="font-bold text-sm select-none">WK</span>
               </div>
               <div>
-                <p className="font-serif font-bold text-base text-foreground leading-none">Wagner Kaizer</p>
+                <p className="font-extrabold text-base text-foreground leading-none">Wagner Kaizer</p>
                 <p className="text-[10px] uppercase tracking-widest mt-0.5 text-muted-foreground">
                   Consultoria Imobiliária
                 </p>

@@ -279,7 +279,7 @@
 
   /* ── Section Headers ── */
   .section-label {
-    @apply text-xs font-semibold uppercase tracking-widest;
+    @apply text-xs font-semibold uppercase tracking-wide;
     color: var(--slate-500);
   }
   .section-title {

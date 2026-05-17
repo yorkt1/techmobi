@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { MessageCircle, Phone, ClipboardList } from "lucide-react";
 
@@ -34,7 +33,7 @@ export default function BrokerSection() {
           {/* Info */}
           <div>
             <p className="section-label mb-3">Seu Especialista em Florianópolis</p>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground">
+            <h2 className="font-sans text-3xl lg:text-4xl font-extrabold text-foreground normal-case tracking-normal">
               Wagner Kaizer
             </h2>
 
@@ -42,7 +41,7 @@ export default function BrokerSection() {
 
             <div className="space-y-4 text-muted-foreground leading-relaxed text-base">
               <p>
-                Há <strong className="text-foreground">10 anos vivendo em Florianópolis</strong>, ofereço um serviço de consultoria imobiliária pautado em transparência, profissionalismo e resultados.
+                Há <strong className="text-foreground">10 anos vivendo em Florianópolis</strong>, lhe ofereço um serviço de consultoria imobiliária pautado em real conhecimento da região, com transparência, profissionalismo e resultados.
               </p>
               <p>
                 Sou seu Corretor e Avaliador de Imóveis com os registros{" "}

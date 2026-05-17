@@ -114,7 +114,7 @@ export default function RecentProperties() {
       {/* ── Destaques ── */}
       <section className="section-py">
         <div className="container-max section-px">
-          <SectionHeader label="Portfólio" title="Imóveis em Destaque" href="/imoveis" />
+          <SectionHeader label="Portfólio" title="Veja alguns imóveis na região" href="/imoveis" />
           {loadingFeatured ? (
             <SkeletonGrid count={3} />
           ) : featured.length === 0 ? (

@@ -40,7 +40,7 @@ export default function Header() {
               <span className="font-bold text-sm tracking-tight select-none">WK</span>
             </div>
             <div className="hidden sm:block">
-              <span className="font-serif text-base font-extrabold text-foreground leading-none block uppercase tracking-wider">
+              <span className="text-base font-extrabold text-foreground leading-none block">
                 Wagner Kaizer
               </span>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-light">

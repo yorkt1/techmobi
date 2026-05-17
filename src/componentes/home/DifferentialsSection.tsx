@@ -1,38 +1,12 @@
-import React from "react";
-import { Users, ShieldCheck, Zap, Headphones, MapPin } from "lucide-react";
-
-const DIFFERENTIALS = [
-  {
-    icon: Users,
-    title: "Atendimento personalizado",
-    description: "Acompanhamento dedicado em cada etapa do processo.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Imóveis verificados",
-    description: "Todos os imóveis são checados e documentados.",
-  },
-  {
-    icon: Zap,
-    title: "Facilidade no processo",
-    description: "Processos simplificados para compra e locação.",
-  },
-  {
-    icon: Headphones,
-    title: "Suporte rápido",
-    description: "Resposta ágil por WhatsApp, telefone ou e-mail.",
-  },
-  {
-    icon: MapPin,
-    title: "Atendimento regional",
-    description: "Conhecimento profundo do mercado local.",
-  },
+const IMAGES = [
+  "https://res.cloudinary.com/dqewxdbfx/image/upload/v1778982801/WhatsApp_Image_2026-05-16_at_20.52.31_r8em6a.jpg",
+  "https://res.cloudinary.com/dqewxdbfx/image/upload/v1778982801/WhatsApp_Image_2026-05-16_at_20.53.03_csp2ny.jpg",
+  "https://res.cloudinary.com/dqewxdbfx/image/upload/v1778982801/WhatsApp_Image_2026-05-16_at_20.53.28_ilfstk.jpg",
 ];
 
 export default function DifferentialsSection() {
   return (
     <section className="section-py relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-slate-50" />
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -43,28 +17,20 @@ export default function DifferentialsSection() {
       />
 
       <div className="relative container-max section-px">
-        {/* Header */}
         <div className="text-center mb-14">
           <p className="text-sm font-semibold text-slate-600 tracking-wider uppercase mb-3">Nossos diferenciais</p>
           <h2 className="text-3xl font-serif font-bold text-navy-900">Por que escolher Wagner Kaizer</h2>
           <div className="w-24 h-0.5 mx-auto mt-5 bg-slate-500 opacity-60" />
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {DIFFERENTIALS.map((item, i) => (
-            <div
-              key={item.title}
-              className="group text-center p-6 rounded-sm bg-white border border-border shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-slate-500/30"
-              style={{
-                animationDelay: `${i * 100}ms`,
-              }}
-            >
-              <div className="w-12 h-12 mx-auto rounded-sm flex items-center justify-center mb-4 transition-all duration-300 bg-slate-500/10 border border-slate-500/20 group-hover:bg-slate-500 group-hover:text-white text-slate-600">
-                <item.icon className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-foreground mb-2">{item.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
+          {IMAGES.map((src, i) => (
+            <div key={i} className="overflow-hidden rounded-sm border border-border shadow-sm h-full" style={{ background: "#001529" }}>
+              <img
+                src={src}
+                alt={`Diferencial ${i + 1}`}
+                className="w-full h-full object-cover"
+              />
             </div>
           ))}
         </div>
