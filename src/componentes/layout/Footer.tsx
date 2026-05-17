@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Lock, MessageCircle, Share2 } from "lucide-react";
+import { Phone, Mail, MapPin, Lock, MessageCircle } from "lucide-react";
+import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -29,20 +30,36 @@ export default function Footer() {
             </p>
             {/* Social */}
             <div className="flex gap-2">
-              {[
-                { label: "IG", href: "#", title: "Instagram" },
-                { label: "FB", href: "#", title: "Facebook" },
-                { label: "IN", href: "#", title: "LinkedIn" },
-              ].map(({ label, href, title }) => (
-                <a
-                  key={title}
-                  href={href}
-                  aria-label={title}
-                  className="w-9 h-9 rounded-sm flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-200 text-xs font-bold border border-border bg-secondary hover:bg-muted"
-                >
-                  {label}
-                </a>
-              ))}
+              <a
+                href="https://www.instagram.com/wagnerkaizercorretorimoveis"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-sm flex items-center justify-center transition-all duration-200 border border-border bg-secondary hover:bg-muted"
+                style={{ color: "#E1306C" }}
+              >
+                <FaInstagram size={17} />
+              </a>
+              <a
+                href="https://www.facebook.com/share/1DqbtUNyhb/"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-sm flex items-center justify-center transition-all duration-200 border border-border bg-secondary hover:bg-muted"
+                style={{ color: "#1877F2" }}
+              >
+                <FaFacebookF size={16} />
+              </a>
+              <a
+                href="https://wa.me/554891932966"
+                aria-label="WhatsApp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-sm flex items-center justify-center transition-all duration-200 border border-border bg-secondary hover:bg-muted"
+                style={{ color: "#25D366" }}
+              >
+                <FaWhatsapp size={17} />
+              </a>
             </div>
           </div>
 

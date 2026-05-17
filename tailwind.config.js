@@ -52,7 +52,7 @@ export default {
       },
       fontFamily: {
         sans:  ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Playfair Display', 'Georgia', 'serif'],
+        serif: ['Syne', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         'slate-sm': '0 0 12px rgba(197, 160, 89, 0.2)',

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -75,9 +75,11 @@
   }
 
   h1, h2, h3, h4, h5 {
-    font-family: 'Playfair Display', Georgia, serif;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
   a {
@@ -296,7 +298,7 @@
   .stat-number {
     @apply text-3xl lg:text-4xl font-bold;
     color: var(--slate-500);
-    font-family: 'Playfair Display', serif;
+    font-family: 'Syne', system-ui, sans-serif;
   }
   .stat-label { @apply text-sm text-muted-foreground mt-1; }
 }

@@ -5,8 +5,8 @@ import HeroSection from "@/componentes/home/HeroSection";
 import RecentProperties from "@/componentes/home/RecentProperties";
 import BrokerSection from "@/componentes/home/BrokerSection";
 import DifferentialsSection from "@/componentes/home/DifferentialsSection";
-import CTASection from "@/componentes/home/CTASection";
 import PartnersSection from "@/componentes/home/PartnersSection";
+import NewsletterSection from "@/componentes/home/NewsletterSection";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <BrokerSection />
       <DifferentialsSection />
       <PartnersSection />
-      <CTASection />
+      <NewsletterSection />
       <Footer />
     </div>
   );

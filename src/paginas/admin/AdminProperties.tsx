@@ -173,11 +173,11 @@ export default function AdminProperties() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
-                        <button onClick={() => openEdit(p)} className="p-1.5 rounded-sm hover:bg-slate-200 transition-colors text-muted-foreground hover:text-navy-900">
-                          <Pencil className="w-3.5 h-3.5" />
+                        <button onClick={() => openEdit(p)} className="p-1.5 rounded-sm hover:bg-slate-200 transition-colors text-slate-500 hover:text-navy-900">
+                          <Pencil className="w-4 h-4" />
                         </button>
-                        <button onClick={() => setDeleteId(p.id)} className="p-1.5 rounded-sm hover:bg-red-50 transition-colors text-muted-foreground hover:text-red-600">
-                          <Trash2 className="w-3.5 h-3.5" />
+                        <button onClick={() => setDeleteId(p.id)} className="p-1.5 rounded-sm hover:bg-red-50 transition-colors text-red-400 hover:text-red-600">
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>

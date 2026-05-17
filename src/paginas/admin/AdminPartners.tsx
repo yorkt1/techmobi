@@ -5,6 +5,7 @@ import AdminLayout from "./Dashboard";
 import { Button } from "@/componentes/ui/button";
 import { Input } from "@/componentes/ui/input";
 import { Textarea } from "@/componentes/ui/textarea";
+import ImageUpload from "@/componentes/ui/ImageUpload";
 import {
   Select,
   SelectContent,
@@ -30,7 +31,7 @@ import {
   AlertDialogTitle,
 } from "@/componentes/ui/alert-dialog";
 import { Badge } from "@/componentes/ui/badge";
-import { Plus, Pencil, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, ExternalLink, Image } from "lucide-react";
 
 const EMPTY = {
   name: "",
@@ -41,7 +42,7 @@ const EMPTY = {
   active: true,
 };
 
-const CATEGORY_LABELS = {
+const CATEGORY_LABELS: Record<string, string> = {
   financiamento: "Financiamento",
   construtora: "Construtora",
   cartório: "Cartório",
@@ -52,41 +53,41 @@ const CATEGORY_LABELS = {
 export default function AdminPartners() {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState(EMPTY);
-  const [deleteId, setDeleteId] = useState(null);
+  const [editing, setEditing] = useState<any>(null);
+  const [form, setForm] = useState<any>(EMPTY);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const { data: partners, isLoading } = useQuery({
+  const { data: partners = [], isLoading } = useQuery({
     queryKey: ["partners"],
     queryFn: () => base44.entities.Partner.list(),
     initialData: [],
   });
 
   const createMut = useMutation({
-    mutationFn: (data) => base44.entities.Partner.create(data),
-    onSuccess: () => { qc.invalidateQueries(["partners"]); closeDialog(); },
+    mutationFn: (data: any) => base44.entities.Partner.create(data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); closeDialog(); },
   });
   const updateMut = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.Partner.update(id, data),
-    onSuccess: () => { qc.invalidateQueries(["partners"]); closeDialog(); },
+    mutationFn: ({ id, data }: any) => base44.entities.Partner.update(id, data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); closeDialog(); },
   });
   const deleteMut = useMutation({
-    mutationFn: (id) => base44.entities.Partner.delete(id),
-    onSuccess: () => { qc.invalidateQueries(["partners"]); setDeleteId(null); },
+    mutationFn: (id: string) => base44.entities.Partner.delete(id),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); setDeleteId(null); },
   });
 
   const openCreate = () => { setEditing(null); setForm(EMPTY); setOpen(true); };
-  const openEdit = (p) => { setEditing(p); setForm({ ...p }); setOpen(true); };
+  const openEdit = (p: any) => { setEditing(p); setForm({ ...p }); setOpen(true); };
   const closeDialog = () => { setOpen(false); setEditing(null); setForm(EMPTY); };
-
   const handleSave = () => {
     if (editing) updateMut.mutate({ id: editing.id, data: form });
     else createMut.mutate(form);
   };
 
-  const field = (key) => ({
+  const field = (key: string) => ({
     value: form[key] ?? "",
-    onChange: (e) => setForm({ ...form, [key]: e.target.value }),
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm({ ...form, [key]: e.target.value }),
   });
 
   return (
@@ -101,66 +102,130 @@ export default function AdminPartners() {
         </Button>
       </div>
 
-      <div className="bg-white border border-border shadow-sm rounded-sm overflow-hidden">
-        {isLoading ? (
-          <p className="p-6 text-sm text-muted-foreground">Carregando...</p>
-        ) : partners.length === 0 ? (
-          <div className="p-10 text-center">
-            <p className="text-sm text-muted-foreground">Nenhum parceiro cadastrado ainda.</p>
-            <Button onClick={openCreate} variant="outline" size="sm" className="mt-4 gap-2 rounded-sm border-slate-500 text-slate-600 hover:bg-slate-500 hover:text-white">
-              <Plus className="w-4 h-4" /> Cadastrar parceiro
-            </Button>
+      {/* Grid de cards */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="rounded-sm border border-border bg-white overflow-hidden">
+              <div className="skeleton h-40 w-full" />
+              <div className="p-4 space-y-2">
+                <div className="skeleton h-4 w-32" />
+                <div className="skeleton h-3 w-20" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : partners.length === 0 ? (
+        <div className="bg-white border border-border rounded-sm p-10 text-center">
+          <div className="w-12 h-12 rounded-sm bg-secondary flex items-center justify-center mx-auto mb-4">
+            <Image className="w-5 h-5 text-muted-foreground" />
           </div>
-        ) : (
-          <div className="divide-y divide-border">
-            {partners.map((p) => (
-              <div key={p.id} className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors">
-                <div className="flex items-center gap-4">
-                  {p.logo_url ? (
-                    <img src={p.logo_url} alt={p.name} className="w-10 h-10 object-contain rounded-sm border border-border" />
-                  ) : (
-                    <div className="w-10 h-10 rounded-sm bg-secondary flex items-center justify-center text-xs font-bold text-muted-foreground">
-                      {p.name?.[0]?.toUpperCase()}
-                    </div>
-                  )}
-                  <div>
-                    <p className="font-medium text-navy-900 text-sm">{p.name}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{p.description}</p>
+          <p className="text-sm text-muted-foreground">Nenhum parceiro cadastrado ainda.</p>
+          <Button onClick={openCreate} variant="outline" size="sm" className="mt-4 gap-2 rounded-sm">
+            <Plus className="w-4 h-4" /> Cadastrar parceiro
+          </Button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {partners.map((p: any) => (
+            <div key={p.id} className="bg-white border border-border rounded-sm overflow-hidden group">
+              {/* Foto */}
+              <div className="relative h-44 bg-secondary flex items-center justify-center">
+                {p.logo_url ? (
+                  <img
+                    src={p.logo_url}
+                    alt={p.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                    <Image className="w-8 h-8 opacity-30" />
+                    <span className="text-xs opacity-50">Sem foto</span>
                   </div>
+                )}
+                {/* Status badge */}
+                <div className="absolute top-2 left-2">
+                  <span
+                    className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm ${
+                      p.active
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-500"
+                    }`}
+                  >
+                    {p.active ? "Ativo" : "Inativo"}
+                  </span>
                 </div>
-                <div className="flex items-center gap-3 ml-4">
-                  {p.category && (
-                    <Badge variant="secondary" className="rounded-sm text-xs hidden sm:flex bg-slate-100 text-slate-600">
-                      {CATEGORY_LABELS[p.category] || p.category}
-                    </Badge>
-                  )}
-                  {p.website && (
-                    <a href={p.website} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-slate-500 transition-colors hidden sm:block">
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
-                  <button onClick={() => openEdit(p)} className="p-1.5 rounded-sm hover:bg-slate-200 transition-colors text-muted-foreground hover:text-navy-900">
+                {/* Actions overlay */}
+                <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={() => openEdit(p)}
+                    className="p-1.5 rounded-sm bg-white/90 shadow text-navy-800 hover:bg-white transition-colors"
+                  >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
-                  <button onClick={() => setDeleteId(p.id)} className="p-1.5 rounded-sm hover:bg-red-50 transition-colors text-muted-foreground hover:text-red-600">
+                  <button
+                    onClick={() => setDeleteId(p.id)}
+                    className="p-1.5 rounded-sm bg-white/90 shadow text-red-500 hover:bg-white transition-colors"
+                  >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+              {/* Info */}
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-semibold text-navy-900 text-sm leading-tight">{p.name}</p>
+                    {p.category && (
+                      <Badge variant="secondary" className="rounded-sm text-[10px] mt-1 bg-slate-100 text-slate-600">
+                        {CATEGORY_LABELS[p.category] || p.category}
+                      </Badge>
+                    )}
+                  </div>
+                  {p.website && (
+                    <a
+                      href={p.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-slate-600 transition-colors shrink-0 mt-0.5"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+                {p.description && (
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed line-clamp-2">
+                    {p.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Form Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg rounded-sm">
+        <DialogContent className="max-w-lg rounded-sm max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-base font-semibold">
               {editing ? "Editar parceiro" : "Novo parceiro"}
             </DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-1 gap-4 py-2">
+
+            {/* Foto */}
+            <div>
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">
+                Foto / Logo do Parceiro
+              </label>
+              <ImageUpload
+                value={form.logo_url}
+                onChange={(url) => setForm({ ...form, logo_url: url })}
+              />
+            </div>
+
             <div>
               <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">Nome</label>
               <Input {...field("name")} placeholder="Nome da empresa" className="rounded-sm" />
@@ -177,10 +242,6 @@ export default function AdminPartners() {
               </Select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">Logo URL</label>
-              <Input {...field("logo_url")} placeholder="https://..." className="rounded-sm" />
-            </div>
-            <div>
               <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-1.5">Site</label>
               <Input {...field("website")} placeholder="https://..." className="rounded-sm" />
             </div>
@@ -189,13 +250,24 @@ export default function AdminPartners() {
               <Textarea {...field("description")} placeholder="Breve descrição do parceiro..." className="rounded-sm resize-none" rows={3} />
             </div>
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="active" checked={!!form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} />
-              <label htmlFor="active" className="text-sm text-muted-foreground">Parceiro ativo (aparece no site)</label>
+              <input
+                type="checkbox"
+                id="active"
+                checked={!!form.active}
+                onChange={(e) => setForm({ ...form, active: e.target.checked })}
+              />
+              <label htmlFor="active" className="text-sm text-muted-foreground">
+                Parceiro ativo (aparece no site)
+              </label>
             </div>
           </div>
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={closeDialog} className="rounded-sm">Cancelar</Button>
-            <Button onClick={handleSave} disabled={createMut.isPending || updateMut.isPending} className="rounded-sm">
+            <Button
+              onClick={handleSave}
+              disabled={createMut.isPending || updateMut.isPending}
+              className="rounded-sm"
+            >
               {createMut.isPending || updateMut.isPending ? "Salvando..." : editing ? "Salvar" : "Cadastrar"}
             </Button>
           </DialogFooter>
@@ -210,7 +282,10 @@ export default function AdminPartners() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="rounded-sm">Cancelar</AlertDialogCancel>
-            <AlertDialogAction className="rounded-sm bg-destructive hover:bg-destructive/90" onClick={() => deleteMut.mutate(deleteId)}>
+            <AlertDialogAction
+              className="rounded-sm bg-destructive hover:bg-destructive/90"
+              onClick={() => deleteMut.mutate(deleteId!)}
+            >
               Excluir
             </AlertDialogAction>
           </AlertDialogFooter>

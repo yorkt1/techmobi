@@ -1,7 +1,8 @@
 import React from "react";
-import { MessageCircle, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MessageCircle, Phone, ClipboardList } from "lucide-react";
 
-const BROKER_IMAGE = "https://res.cloudinary.com/dqewxdbfx/image/upload/v1778807059/Design_sem_nome_9_sm276u.png";
+const BROKER_IMAGE = "https://res.cloudinary.com/dqewxdbfx/image/upload/v1778982461/Design_sem_nome_11_jekthr.png";
 
 export default function BrokerSection() {
   return (
@@ -11,7 +12,6 @@ export default function BrokerSection() {
 
           {/* Photo */}
           <div className="relative flex justify-center lg:justify-start">
-            {/* Decorative element behind photo */}
             <div
               className="absolute -top-4 -left-4 w-full h-full max-w-xs rounded-sm border-2 border-muted"
               style={{ zIndex: 0 }}
@@ -19,7 +19,7 @@ export default function BrokerSection() {
             <div className="relative z-10 overflow-hidden rounded-sm max-w-xs w-full border border-border bg-muted/20">
               <img
                 src={BROKER_IMAGE}
-                alt="Wagner Kaizer - Corretor de imóveis"
+                alt="Wagner Kaizer - Corretor de imóveis em Florianópolis"
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-900/40 to-transparent" />
@@ -33,35 +33,31 @@ export default function BrokerSection() {
 
           {/* Info */}
           <div>
-            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Seu corretor</p>
+            <p className="section-label mb-3">Seu Especialista em Florianópolis</p>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground">
               Wagner Kaizer
             </h2>
 
-            {/* Divider */}
             <div className="w-16 h-0.5 mt-4 mb-6 bg-muted-foreground/30" />
 
-            <p className="text-muted-foreground leading-relaxed text-base">
-              Profissional com mais de <strong className="text-foreground">10 anos de experiência</strong> no mercado imobiliário.
-              Especializado em imóveis residenciais e comerciais na região, com atendimento
-              personalizado e foco total na satisfação do cliente.
-            </p>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 mt-8">
-              {[
-                { number: "500+", label: "Clientes atendidos" },
-                { number: "10+", label: "Anos de mercado" },
-                { number: "200+", label: "Imóveis vendidos" },
-              ].map(({ number, label }) => (
-                <div
-                  key={label}
-                  className="text-center p-4 rounded-sm bg-muted/30 border border-border"
-                >
-                  <p className="text-2xl font-bold font-serif text-foreground">{number}</p>
-                  <p className="text-xs text-muted-foreground mt-1 leading-tight">{label}</p>
-                </div>
-              ))}
+            <div className="space-y-4 text-muted-foreground leading-relaxed text-base">
+              <p>
+                Há <strong className="text-foreground">10 anos vivendo em Florianópolis</strong>, ofereço um serviço de consultoria imobiliária pautado em transparência, profissionalismo e resultados.
+              </p>
+              <p>
+                Sou seu Corretor e Avaliador de Imóveis com os registros{" "}
+                <strong className="text-foreground">CRECI 71853F</strong> e{" "}
+                <strong className="text-foreground">CNAI 55130</strong>, garantindo total segurança jurídica.
+              </p>
+              <p>
+                Com uma sólida experiência de mais de{" "}
+                <strong className="text-foreground">12 anos no Jornalismo e Comunicação</strong>{" "}
+                (MTE 16446/RS), utilizo uma abordagem de marketing estratégico diferenciada para maximizar a visibilidade e o valor de sua transação.
+              </p>
+              <p>
+                Especialista no <strong className="text-foreground">Norte da Ilha</strong>, minha curadoria técnica e o acesso exclusivo ao mercado{" "}
+                <strong className="text-foreground">Off-Market</strong> proporcionam oportunidades únicas e personalizadas para cada cliente.
+              </p>
             </div>
 
             {/* CTA Buttons */}
@@ -83,7 +79,16 @@ export default function BrokerSection() {
                 (48) 9193-2966
               </a>
             </div>
+
+            <Link
+              to="/formulario"
+              className="mt-3 flex items-center justify-center gap-2 w-full py-3 text-sm font-semibold rounded-sm transition-all duration-200 border border-border bg-secondary text-foreground hover:bg-muted"
+            >
+              <ClipboardList className="w-4 h-4" />
+              Preencher Formulário de Pretensão de Compra
+            </Link>
           </div>
+
         </div>
       </div>
     </section>

@@ -11,6 +11,8 @@ import AdminOverview from '@/paginas/admin/AdminOverview';
 import AdminProperties from '@/paginas/admin/AdminProperties';
 import AdminPartners from '@/paginas/admin/AdminPartners';
 import Login from '@/paginas/Login';
+import FormularioPretensao from '@/paginas/FormularioPretensao';
+import AdminLeads from '@/paginas/admin/AdminLeads';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoadingAuth } = useAuth();
@@ -35,10 +37,12 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Home />} />
       <Route path="/imoveis" element={<Properties />} />
       <Route path="/imovel/:id" element={<PropertyDetail />} />
+      <Route path="/formulario" element={<FormularioPretensao />} />
       <Route path="/login" element={<Login />} />
       <Route path="/admin" element={<ProtectedRoute><AdminOverview /></ProtectedRoute>} />
       <Route path="/admin/imoveis" element={<ProtectedRoute><AdminProperties /></ProtectedRoute>} />
       <Route path="/admin/parceiros" element={<ProtectedRoute><AdminPartners /></ProtectedRoute>} />
+      <Route path="/admin/leads" element={<ProtectedRoute><AdminLeads /></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

@@ -9,6 +9,7 @@ import {
   Menu,
   X,
   Handshake,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +17,7 @@ const NAV = [
   { label: "Visão Geral", to: "/admin", icon: LayoutDashboard },
   { label: "Imóveis", to: "/admin/imoveis", icon: Building2 },
   { label: "Parceiros", to: "/admin/parceiros", icon: Handshake },
+  { label: "Leads", to: "/admin/leads", icon: Users },
 ];
 
 export default function AdminLayout({ children }) {

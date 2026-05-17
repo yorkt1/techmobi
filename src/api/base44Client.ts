@@ -56,6 +56,7 @@ export const base44 = {
   entities: {
     Property: makeEntity("properties"),
     Partner: makeEntity("partners"),
+    Subscriber: makeEntity("subscribers"),
     Settings: {
       async get() {
         const { data } = await supabase.from("settings").select("*").limit(1).single();
