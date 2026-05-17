@@ -271,7 +271,10 @@ export default function AdminProperties() {
 
       {/* Form Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-sm">
+        <DialogContent
+          className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-sm"
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="text-base font-semibold">
               {editing ? "Editar imóvel" : "Novo imóvel"}
