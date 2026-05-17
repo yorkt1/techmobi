@@ -3,6 +3,14 @@
 -- Execute este SQL no SQL Editor do painel do Supabase
 -- ============================================================
 
+-- ============================================================
+-- MIGRAÇÃO: execute no SQL Editor do Supabase se as tabelas
+-- já existirem (apenas adiciona colunas novas)
+-- ============================================================
+-- ALTER TABLE properties ADD COLUMN IF NOT EXISTS code TEXT;
+-- ALTER TABLE properties ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}';
+-- ============================================================
+
 -- Tabela de imóveis
 CREATE TABLE IF NOT EXISTS properties (
   id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -17,7 +25,9 @@ CREATE TABLE IF NOT EXISTS properties (
   garages     INTEGER,
   area        NUMERIC,
   description TEXT,
+  code        TEXT,
   image_url   TEXT,
+  images      TEXT[]      DEFAULT '{}',
   featured    BOOLEAN     DEFAULT false,
   created_at  TIMESTAMPTZ DEFAULT now(),
   updated_at  TIMESTAMPTZ DEFAULT now()

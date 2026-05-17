@@ -24,7 +24,7 @@ export default function AdminOverview() {
   return (
     <AdminLayout>
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-foreground tracking-tight">
+        <h2 className="text-xl font-bold text-foreground tracking-tight font-sans normal-case">
           Visão Geral
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
@@ -58,7 +58,7 @@ export default function AdminOverview() {
       {/* Recent properties */}
       <div className="bg-white border border-border shadow-sm rounded-sm">
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <h3 className="text-sm font-semibold text-navy-900">
+          <h3 className="text-sm font-semibold text-navy-900 font-sans normal-case">
             Imóveis recentes
           </h3>
           <Link

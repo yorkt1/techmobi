@@ -94,7 +94,7 @@ export default function AdminPartners() {
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-navy-900 tracking-tight">Parceiros</h2>
+          <h2 className="text-xl font-bold text-navy-900 tracking-tight font-sans normal-case">Parceiros</h2>
           <p className="text-sm text-muted-foreground mt-1">{partners.length} parceiros cadastrados</p>
         </div>
         <Button onClick={openCreate} className="gap-2 rounded-sm bg-navy-900 text-white hover:bg-navy-800" size="sm">

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Bed, Bath, Maximize2, MapPin } from "lucide-react";
+import { Bed, Bath, Maximize2, MapPin, Car } from "lucide-react";
 
 function formatPrice(value: number | undefined) {
   if (!value) return "Consulte";
@@ -26,21 +26,27 @@ interface Property {
   transaction?: string;
   type?: string;
   image_url?: string;
+  images?: string[];
   neighborhood?: string;
   city?: string;
   bedrooms?: number;
   bathrooms?: number;
+  garages?: number;
   area?: number;
 }
 
 export default function PropertyCard({ property }: { property: Property }) {
+  const mainImage = (Array.isArray(property.images) && property.images.length > 0)
+    ? property.images[0]
+    : property.image_url;
+
   return (
     <Link to={`/imovel/${property.id}`} className="property-card block group">
 
       {/* Image */}
       <div className="card-img">
         <img
-          src={property.image_url || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80"}
+          src={mainImage || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80"}
           alt={property.title}
         />
         {/* Gradient overlay */}
@@ -75,7 +81,7 @@ export default function PropertyCard({ property }: { property: Property }) {
 
       {/* Content */}
       <div className="card-body">
-        <p className="text-xl font-bold text-foreground font-serif tracking-tight">
+        <p className="text-xl font-bold text-foreground font-sans tracking-tight">
           {formatPrice(property.price)}
           {property.transaction === "aluguel" && (
             <span className="text-sm font-normal text-muted-foreground font-sans">/mês</span>
@@ -107,6 +113,12 @@ export default function PropertyCard({ property }: { property: Property }) {
             <div className="flex items-center gap-1.5 text-muted-foreground">
               <Bath className="w-4 h-4" />
               <span className="text-xs font-medium">{property.bathrooms}</span>
+            </div>
+          )}
+          {(property.garages ?? 0) > 0 && (
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Car className="w-4 h-4" />
+              <span className="text-xs font-medium">{property.garages}</span>
             </div>
           )}
           {(property.area ?? 0) > 0 && (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import Footer from "@/componentes/layout/Footer";
 import { Button } from "@/componentes/ui/button";
 import { Badge } from "@/componentes/ui/badge";
 import { Skeleton } from "@/componentes/ui/skeleton";
-import { Bed, Bath, Maximize2, MapPin, ArrowLeft, MessageCircle, Phone } from "lucide-react";
+import { Bed, Bath, Maximize2, MapPin, ArrowLeft, MessageCircle, Phone, Car, ChevronLeft, ChevronRight } from "lucide-react";
 
 function formatPrice(value) {
   if (!value) return "Consulte";
@@ -27,9 +27,9 @@ function formatType(type) {
 }
 
 export default function PropertyDetail() {
-  const urlParams = new URLSearchParams(window.location.search);
   const pathParts = window.location.pathname.split("/");
   const propertyId = pathParts[pathParts.length - 1];
+  const [activeImg, setActiveImg] = useState(0);
 
   const { data: properties, isLoading } = useQuery({
     queryKey: ["property", propertyId],
@@ -38,6 +38,19 @@ export default function PropertyDetail() {
   });
 
   const property = properties.find((p) => String(p.id) === propertyId);
+
+  const allImages: string[] = (() => {
+    if (!property) return [];
+    const imgs = Array.isArray(property.images) && property.images.length > 0
+      ? property.images
+      : property.image_url
+      ? [property.image_url]
+      : [];
+    return imgs;
+  })();
+
+  const prevImg = () => setActiveImg((i) => (i - 1 + allImages.length) % allImages.length);
+  const nextImg = () => setActiveImg((i) => (i + 1) % allImages.length);
 
   if (isLoading) {
     return (
@@ -73,6 +86,8 @@ export default function PropertyDetail() {
     );
   }
 
+  const codeLabel = property.code ? `#${property.code}` : `#${String(property.id).slice(0, 8).toUpperCase()}`;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -90,14 +105,58 @@ export default function PropertyDetail() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main */}
             <div className="lg:col-span-2">
-              {/* Image */}
+              {/* Gallery */}
               <div className="overflow-hidden rounded-sm border border-border">
-                <img
-                  src={property.image_url || "/placeholder.jpg"}
-                  alt={property.title}
-                  className="w-full h-64 sm:h-80 lg:h-[480px] object-cover"
-                />
+                {allImages.length > 0 ? (
+                  <div className="relative">
+                    <img
+                      src={allImages[activeImg]}
+                      alt={`${property.title} — foto ${activeImg + 1}`}
+                      className="w-full aspect-[4/3] object-cover"
+                    />
+                    {allImages.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevImg}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={nextImg}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+                        <span className="absolute bottom-3 right-3 text-xs bg-black/60 text-white px-2 py-1 rounded-sm">
+                          {activeImg + 1} / {allImages.length}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-full h-64 sm:h-80 lg:h-[480px] bg-slate-100 flex items-center justify-center">
+                    <p className="text-sm text-muted-foreground">Sem foto disponível</p>
+                  </div>
+                )}
               </div>
+
+              {/* Thumbnails */}
+              {allImages.length > 1 && (
+                <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+                  {allImages.map((url, idx) => (
+                    <button
+                      key={url + idx}
+                      onClick={() => setActiveImg(idx)}
+                      className={`flex-shrink-0 w-16 h-16 rounded-sm overflow-hidden border-2 transition-colors ${
+                        idx === activeImg ? "border-navy-900" : "border-transparent"
+                      }`}
+                    >
+                      <img src={url} alt={`Miniatura ${idx + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Details */}
               <div className="mt-6">
@@ -122,7 +181,7 @@ export default function PropertyDetail() {
                 </div>
 
                 {/* Stats */}
-                <div className="flex items-center gap-6 mt-6 py-4 border-t border-b border-border">
+                <div className="flex flex-wrap items-center gap-6 mt-6 py-4 border-t border-b border-border">
                   {property.bedrooms > 0 && (
                     <div className="flex items-center gap-2">
                       <Bed className="w-5 h-5 text-muted-foreground" />
@@ -138,6 +197,15 @@ export default function PropertyDetail() {
                       <div>
                         <p className="text-sm font-semibold text-foreground">{property.bathrooms}</p>
                         <p className="text-xs text-muted-foreground">Banheiros</p>
+                      </div>
+                    </div>
+                  )}
+                  {property.garages > 0 && (
+                    <div className="flex items-center gap-2">
+                      <Car className="w-5 h-5 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{property.garages}</p>
+                        <p className="text-xs text-muted-foreground">Garagens</p>
                       </div>
                     </div>
                   )}
@@ -195,7 +263,7 @@ export default function PropertyDetail() {
 
                 <div className="mt-6 pt-6 border-t border-border">
                   <p className="text-xs text-muted-foreground">
-                    Código do imóvel: #{property.id}
+                    Código do imóvel: {codeLabel}
                   </p>
                 </div>
               </div>
