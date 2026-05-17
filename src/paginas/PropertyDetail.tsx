@@ -112,7 +112,7 @@ export default function PropertyDetail() {
                     <img
                       src={allImages[activeImg]}
                       alt={`${property.title} — foto ${activeImg + 1}`}
-                      className="w-full aspect-[4/3] object-cover"
+                      className="w-full aspect-[4/3] object-contain bg-slate-100"
                     />
                     {allImages.length > 1 && (
                       <>
