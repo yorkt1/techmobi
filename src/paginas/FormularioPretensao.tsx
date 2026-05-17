@@ -218,8 +218,26 @@ export default function FormularioPretensao() {
           </p>
         </div>
 
+        {/* Imagem + LGPD */}
+        <div className="container-max section-px mt-10">
+          <div className="max-w-2xl mx-auto">
+            <img
+              src="https://res.cloudinary.com/dqewxdbfx/image/upload/v1779028541/WhatsApp_Image_2026-05-17_at_11.34.20_yjhr7v.jpg"
+              alt="Wagner Kaizer"
+              className="w-full rounded-sm object-cover"
+            />
+            <div
+              className="flex items-center justify-center gap-2 mt-3 px-4 py-2.5 rounded-sm text-sm text-muted-foreground"
+              style={{ background: "rgba(100,116,139,0.06)", border: "1px solid rgba(100,116,139,0.15)" }}
+            >
+              <ShieldCheck className="w-4 h-4 shrink-0" style={{ color: "#64748b" }} />
+              <span>Suas informações estão protegidas pela <strong className="text-foreground">LGPD</strong></span>
+            </div>
+          </div>
+        </div>
+
         {/* Form */}
-        <div className="container-max section-px mt-12">
+        <div className="container-max section-px mt-10">
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-10">
 
             {/* 1. Dados do interessado */}
