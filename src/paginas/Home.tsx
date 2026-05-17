@@ -7,8 +7,13 @@ import BrokerSection from "@/componentes/home/BrokerSection";
 import DifferentialsSection from "@/componentes/home/DifferentialsSection";
 import PartnersSection from "@/componentes/home/PartnersSection";
 import NewsletterSection from "@/componentes/home/NewsletterSection";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Home() {
+  useSEO({
+    title: "Wagner Kaizer Consultoria Imobiliária",
+    description: "Consultoria imobiliária especializada no Norte da Ilha de Florianópolis. Compra, venda e aluguel com Wagner Kaizer — CRECI 71853F.",
+  });
   return (
     <div className="min-h-screen bg-background">
       <Header />

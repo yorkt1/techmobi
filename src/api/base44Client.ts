@@ -62,6 +62,11 @@ export const base44 = {
         const { data } = await supabase.from("settings").select("*").limit(1).single();
         return data ?? {};
       },
+      async update(id: string, payload: Record<string, unknown>) {
+        const { data, error } = await supabase.from("settings").update(payload).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      },
     },
   },
 

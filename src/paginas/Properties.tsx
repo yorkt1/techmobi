@@ -9,6 +9,7 @@ import { Skeleton } from "@/componentes/ui/skeleton";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/componentes/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/componentes/ui/select";
+import { useSEO } from "@/lib/useSEO";
 
 const DEFAULT_FILTERS = {
   transactions: [],
@@ -71,6 +72,11 @@ export default function Properties() {
   });
   const [sort, setSort] = useState("recent");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  useSEO({
+    title: "Imóveis disponíveis",
+    description: "Encontre apartamentos, casas, terrenos e imóveis comerciais em Florianópolis e região. Filtros por preço, tipo e localização.",
+  });
 
   const { data: properties, isLoading } = useQuery({
     queryKey: ["properties"],

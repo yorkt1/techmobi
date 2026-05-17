@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS settings (
 );
 
 -- Inserir configuração padrão
-INSERT INTO settings (company_name) VALUES ('TechMobi') ON CONFLICT DO NOTHING;
+INSERT INTO settings (company_name, phone) VALUES ('Wagner Kaizer Consultoria Imobiliária', '554891932966') ON CONFLICT DO NOTHING;
 
 -- ============================================================
 -- Row Level Security

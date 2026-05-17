@@ -8,6 +8,9 @@ import { Button } from "@/componentes/ui/button";
 import { Badge } from "@/componentes/ui/badge";
 import { Skeleton } from "@/componentes/ui/skeleton";
 import { Bed, Bath, Maximize2, MapPin, ArrowLeft, MessageCircle, Phone, Car, ChevronLeft, ChevronRight } from "lucide-react";
+import { useSEO } from "@/lib/useSEO";
+
+const FALLBACK_PHONE = "554891932966";
 
 function formatPrice(value) {
   if (!value) return "Consulte";
@@ -37,7 +40,25 @@ export default function PropertyDetail() {
     initialData: [],
   });
 
+  const { data: settings } = useQuery({
+    queryKey: ["settings"],
+    queryFn: () => base44.entities.Settings.get(),
+  });
+
+  const phone = settings?.phone || FALLBACK_PHONE;
   const property = properties.find((p) => String(p.id) === propertyId);
+
+  const mainImage = Array.isArray(property?.images) && property.images.length > 0
+    ? property.images[0]
+    : property?.image_url ?? "";
+
+  useSEO({
+    title: property ? `${property.title} — ${property.city}` : "Imóvel",
+    description: property?.description
+      ? property.description.slice(0, 160)
+      : `${property?.type ?? "Imóvel"} ${property?.transaction === "venda" ? "à venda" : "para aluguel"} em ${property?.city ?? "Florianópolis"}`,
+    image: mainImage || undefined,
+  });
 
   const allImages: string[] = (() => {
     if (!property) return [];
@@ -245,7 +266,7 @@ export default function PropertyDetail() {
                 <div className="space-y-3 mt-6">
                   <Button className="w-full gap-2 rounded-sm h-11" asChild>
                     <a
-                      href={`https://wa.me/5511999999999?text=Olá! Tenho interesse no imóvel: ${property.title}`}
+                      href={`https://wa.me/${phone}?text=Olá! Tenho interesse no imóvel: ${encodeURIComponent(property.title)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -254,7 +275,7 @@ export default function PropertyDetail() {
                     </a>
                   </Button>
                   <Button variant="outline" className="w-full gap-2 rounded-sm h-11" asChild>
-                    <a href="tel:+5511999999999">
+                    <a href={`tel:+${phone}`}>
                       <Phone className="w-4 h-4" />
                       Ligar agora
                     </a>

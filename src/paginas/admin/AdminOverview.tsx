@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import AdminLayout from "./Dashboard";
-import { Building2, Handshake, TrendingUp, ArrowRight } from "lucide-react";
+import { Building2, Handshake, TrendingUp, ArrowRight, Users } from "lucide-react";
 
 export default function AdminOverview() {
   const { data: properties } = useQuery({
@@ -14,6 +14,11 @@ export default function AdminOverview() {
   const { data: partners } = useQuery({
     queryKey: ["partners"],
     queryFn: () => base44.entities.Partner.list(),
+    initialData: [],
+  });
+  const { data: subscribers } = useQuery({
+    queryKey: ["subscribers"],
+    queryFn: () => base44.entities.Subscriber.list("-created_at"),
     initialData: [],
   });
 
@@ -33,12 +38,13 @@ export default function AdminOverview() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {[
           { label: "Total de Imóveis", value: properties.length, icon: Building2 },
           { label: "Para Venda", value: forSale, icon: TrendingUp },
           { label: "Para Aluguel", value: forRent, icon: TrendingUp },
           { label: "Parceiros", value: partners.length, icon: Handshake },
+          { label: "Leads Recebidos", value: subscribers.length, icon: Users },
         ].map((stat) => (
           <div
             key={stat.label}
