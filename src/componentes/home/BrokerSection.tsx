@@ -25,8 +25,8 @@ export default function BrokerSection() {
             </div>
             {/* CRECI badge */}
             <div className="absolute -bottom-4 -right-4 z-20 bg-background border border-border px-4 py-3 rounded-sm text-center shadow-sm">
-              <p className="text-sm font-bold font-serif text-foreground">CRECI 71853 F</p>
-              <p className="text-xs font-bold font-serif text-muted-foreground mt-0.5">CNAI 55130</p>
+              <p className="text-sm font-extrabold text-foreground">CRECI 71853 F</p>
+              <p className="text-sm font-extrabold text-foreground mt-0.5">CNAI 55130</p>
             </div>
           </div>
 

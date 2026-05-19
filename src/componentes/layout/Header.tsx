@@ -39,12 +39,12 @@ export default function Header() {
             >
               <span className="font-bold text-sm tracking-tight select-none">WK</span>
             </div>
-            <div className="hidden sm:block">
+            <div>
               <span className="text-base font-extrabold text-foreground leading-none block">
                 Wagner Kaizer
               </span>
               <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-light">
-                Consultoria Imobiliária
+                Negócios Imobiliários
               </span>
             </div>
           </Link>

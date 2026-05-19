@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const SLIDES = [
   {
     id: 1,
-    image: "https://res.cloudinary.com/dqewxdbfx/image/upload/v1778982317/Design_sem_nome_10_fbszfl.png",
+    image: "https://res.cloudinary.com/dqewxdbfx/image/upload/v1779223985/WhatsApp_Image_2026-05-19_at_10.03.40_ziifbg.jpg",
     alt: "Wagner Kaizer Consultoria Imobiliária",
   },
 ];

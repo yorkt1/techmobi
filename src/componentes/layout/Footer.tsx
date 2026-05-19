@@ -21,7 +21,7 @@ export default function Footer() {
               <div>
                 <p className="font-extrabold text-base text-foreground leading-none">Wagner Kaizer</p>
                 <p className="text-[10px] uppercase tracking-widest mt-0.5 text-muted-foreground">
-                  Consultoria Imobiliária
+                  Negócios Imobiliários
                 </p>
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function Footer() {
               Atendimento
             </h4>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-              Fale diretamente com um de nossos corretores especializados e receba atendimento personalizado.
+              Fale diretamente com o Corretor Wagner Kaizer e receba atendimento personalizado.
             </p>
             <a
               href="https://wa.me/554891932966"
@@ -163,15 +163,28 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Wagner Kaizer Consultoria Imobiliária. Todos os direitos reservados. CRECI 71853 F
+            © {new Date().getFullYear()} Wagner Kaizer Negócios Imobiliários. Todos os direitos reservados. CRECI 71853 F
           </p>
-          <Link
-            to="/admin"
-            className="flex items-center gap-1.5 text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
-          >
-            <Lock className="w-3 h-3" />
-            Área do corretor
-          </Link>
+          <div className="flex items-center gap-4">
+            <p className="text-xs text-muted-foreground/50">
+              Desenvolvido por{" "}
+              <a
+                href="https://softvances.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-muted-foreground transition-colors"
+              >
+                softvances.com.br
+              </a>
+            </p>
+            <Link
+              to="/admin"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+            >
+              <Lock className="w-3 h-3" />
+              Área do corretor
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
