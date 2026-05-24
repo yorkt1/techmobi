@@ -149,9 +149,9 @@ export default function Footer() {
                 >
                   <Mail className="w-3.5 h-3.5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs text-muted-foreground">E-mail</p>
-                  <a href="mailto:wagnerkaizercorretordeimoveis@gmail.com" className="text-sm text-foreground hover:text-primary transition-colors font-medium">
+                  <a href="mailto:wagnerkaizercorretordeimoveis@gmail.com" className="text-sm text-foreground hover:text-primary transition-colors font-medium break-all">
                     wagnerkaizercorretordeimoveis@gmail.com
                   </a>
                 </div>
