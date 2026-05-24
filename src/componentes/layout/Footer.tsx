@@ -1,9 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Phone, Mail, MapPin, Lock, MessageCircle } from "lucide-react";
 import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (e: React.MouseEvent, to: string) => {
+    if (to === "/") {
+      e.preventDefault();
+      if (location.pathname !== "/") {
+        navigate("/");
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (to.startsWith("/#")) {
+      e.preventDefault();
+      const id = to.substring(2);
+      if (location.pathname === "/") {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        const tryScroll = (attempts = 0) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else if (attempts < 20) {
+            setTimeout(() => tryScroll(attempts + 1), 100);
+          }
+        };
+        setTimeout(() => tryScroll(), 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <footer className="footer-bg dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
@@ -26,7 +58,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-              Especialistas em imóveis residenciais e comerciais. Atendimento personalizado com compromisso e transparência.
+              Especialista em imóveis residenciais e comerciais. Atendimento personalizado com compromisso e transparência.
             </p>
             {/* Social */}
             <div className="flex gap-2">
@@ -74,11 +106,12 @@ export default function Footer() {
                 { label: "Comprar imóvel", to: "/imoveis?transaction=venda" },
                 { label: "Alugar imóvel", to: "/imoveis?transaction=aluguel" },
                 { label: "Todos os imóveis", to: "/imoveis" },
-                { label: "Sobre nós", to: "/#sobre" },
+                { label: "Wagner Kaizer", to: "/#sobre" },
               ].map(({ label, to }) => (
                 <li key={label}>
                   <Link
                     to={to}
+                    onClick={(e) => handleNavClick(e, to)}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 group"
                   >
                     <span
@@ -118,8 +151,8 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">E-mail</p>
-                  <a href="mailto:contato@wagnerkaizer.com.br" className="text-sm text-foreground hover:text-primary transition-colors font-medium">
-                    contato@wagnerkaizer.com.br
+                  <a href="mailto:wagnerkaizercorretordeimoveis@gmail.com" className="text-sm text-foreground hover:text-primary transition-colors font-medium">
+                    wagnerkaizercorretordeimoveis@gmail.com
                   </a>
                 </div>
               </li>

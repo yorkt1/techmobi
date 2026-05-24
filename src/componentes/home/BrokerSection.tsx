@@ -81,6 +81,7 @@ export default function BrokerSection() {
 
             <Link
               to="/formulario"
+              onClick={() => window.scrollTo(0, 0)}
               className="mt-3 flex items-center justify-center gap-2 w-full py-3 text-sm font-semibold rounded-sm transition-all duration-200 border border-border bg-secondary text-foreground hover:bg-muted"
             >
               <ClipboardList className="w-4 h-4" />

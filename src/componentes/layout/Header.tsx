@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, MessageCircle, Home, Building2, Key } from "lucide-react";
 
 const NAV_LINKS = [
@@ -14,6 +14,37 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (e: React.MouseEvent, to: string) => {
+    if (to === "/") {
+      e.preventDefault();
+      if (location.pathname !== "/") {
+        navigate("/");
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (to.startsWith("/#")) {
+      e.preventDefault();
+      const id = to.substring(2);
+      if (location.pathname === "/") {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        const tryScroll = (attempts = 0) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else if (attempts < 20) {
+            setTimeout(() => tryScroll(attempts + 1), 100);
+          }
+        };
+        setTimeout(() => tryScroll(), 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -55,6 +86,7 @@ export default function Header() {
               <Link
                 key={link.label}
                 to={link.to}
+                onClick={(e) => handleNavClick(e, link.to)}
                 className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-black/5 rounded-sm transition-all duration-200"
               >
                 {link.label}
@@ -94,7 +126,7 @@ export default function Header() {
               <Link
                 key={link.label}
                 to={link.to}
-                onClick={() => setMobileOpen(false)}
+                onClick={(e) => { handleNavClick(e, link.to); setMobileOpen(false); }}
                 className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-black/5 rounded-sm transition-colors"
               >
                 {link.label}

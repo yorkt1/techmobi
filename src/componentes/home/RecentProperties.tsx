@@ -87,7 +87,7 @@ export default function RecentProperties() {
 
   const { data: venda = [], isLoading: loadingVenda } = useQuery({
     queryKey: ["venda-properties"],
-    queryFn: () => queryProperties({ transaction: "venda" }, 6),
+    queryFn: () => queryProperties({ transaction: "venda" }, 9),
     initialData: [],
   });
 
@@ -101,7 +101,8 @@ export default function RecentProperties() {
 
   const vendaDisplay = (() => {
     const deduped = venda.filter((p: any) => !featuredIds.has(p.id));
-    return deduped.length >= 2 ? deduped : venda;
+    const list = deduped.length >= 2 ? deduped : venda;
+    return list.slice(0, 6);
   })();
 
   const aluguelDisplay = (() => {
@@ -130,7 +131,7 @@ export default function RecentProperties() {
         <div className="container-max section-px">
           <SectionHeader label="Comprar" title="Imóveis à Venda" href="/imoveis?transaction=venda" />
           {loadingVenda ? (
-            <SkeletonGrid count={3} />
+            <SkeletonGrid count={6} />
           ) : vendaDisplay.length === 0 ? (
             <EmptyState />
           ) : (

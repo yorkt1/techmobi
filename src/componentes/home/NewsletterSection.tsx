@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { base44 } from "@/api/base44Client";
+import emailjs from "@emailjs/browser";
 import { ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 
 type FormData = {
@@ -43,21 +43,21 @@ export default function NewsletterSection() {
     setStatus("loading");
     setErrorMsg("");
     try {
-      await base44.entities.Subscriber.create({
-        name:        form.nome.trim(),
-        email:       form.email.trim().toLowerCase() || null,
-        phone:       form.telefone.trim(),
-        tipo_imovel: form.tipo === "outro" ? form.tipoOutro : form.tipo,
-        created_at:  new Date().toISOString(),
-      });
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          nome:        form.nome.trim(),
+          email:       form.email.trim() || "não informado",
+          telefone:    form.telefone.trim(),
+          tipo_imovel: form.tipo === "outro" ? form.tipoOutro : form.tipo,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      );
       setStatus("success");
-    } catch (err: any) {
-      if (err?.message?.includes("duplicate") || err?.code === "23505") {
-        setStatus("success");
-      } else {
-        setStatus("error");
-        setErrorMsg("Erro ao cadastrar. Tente novamente.");
-      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Erro ao enviar. Tente novamente.");
     }
   };
 
@@ -162,7 +162,7 @@ export default function NewsletterSection() {
                 }}
               >
                 {status === "loading" ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Cadastrando...</>
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Enviando...</>
                 ) : (
                   <>Quero cadastrar meu imóvel <ArrowRight className="w-4 h-4" /></>
                 )}
