@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import PropertyCard from "./PropertyCard";
+import FeaturedNewsSection from "./FeaturedNewsSection";
 
 async function queryProperties(filter?: { transaction: string }, limit = 6) {
   let q = supabase.from("properties").select("*").order("created_at", { ascending: false }).limit(limit);
@@ -171,6 +172,8 @@ export default function RecentProperties() {
           </div>
         </div>
       </section>
+
+      <FeaturedNewsSection />
     </>
   );
 }
