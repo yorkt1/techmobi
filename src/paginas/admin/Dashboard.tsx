@@ -11,13 +11,15 @@ import {
   Handshake,
   Users,
   Settings,
+  Newspaper,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/componentes/ui/button";
 
 const NAV = [
   { label: "Visão Geral", to: "/admin", icon: LayoutDashboard },
   { label: "Imóveis", to: "/admin/imoveis", icon: Building2 },
   { label: "Parceiros", to: "/admin/parceiros", icon: Handshake },
+  { label: "Notícias", to: "/admin/noticias", icon: Newspaper },
   { label: "Leads", to: "/admin/leads", icon: Users },
   { label: "Configurações", to: "/admin/configuracoes", icon: Settings },
 ];

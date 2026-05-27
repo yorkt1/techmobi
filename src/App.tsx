@@ -10,6 +10,7 @@ import PropertyDetail from '@/paginas/PropertyDetail';
 import AdminOverview from '@/paginas/admin/AdminOverview';
 import AdminProperties from '@/paginas/admin/AdminProperties';
 import AdminPartners from '@/paginas/admin/AdminPartners';
+import AdminNews from '@/paginas/admin/AdminNews';
 import Login from '@/paginas/Login';
 import FormularioPretensao from '@/paginas/FormularioPretensao';
 import AdminLeads from '@/paginas/admin/AdminLeads';
@@ -43,6 +44,7 @@ const AuthenticatedApp = () => {
       <Route path="/admin" element={<ProtectedRoute><AdminOverview /></ProtectedRoute>} />
       <Route path="/admin/imoveis" element={<ProtectedRoute><AdminProperties /></ProtectedRoute>} />
       <Route path="/admin/parceiros" element={<ProtectedRoute><AdminPartners /></ProtectedRoute>} />
+      <Route path="/admin/noticias" element={<ProtectedRoute><AdminNews /></ProtectedRoute>} />
       <Route path="/admin/leads" element={<ProtectedRoute><AdminLeads /></ProtectedRoute>} />
       <Route path="/admin/configuracoes" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />

@@ -85,6 +85,20 @@ CREATE TABLE IF NOT EXISTS partners (
   updated_at  TIMESTAMPTZ DEFAULT now()
 );
 
+-- Tabela de notícias em destaque
+CREATE TABLE IF NOT EXISTS news (
+  id           UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  title        TEXT        NOT NULL,
+  excerpt      TEXT,
+  image_url    TEXT,
+  display_date TEXT,
+  featured     BOOLEAN     DEFAULT true,
+  active       BOOLEAN     DEFAULT true,
+  order_index  INTEGER     DEFAULT 0,
+  created_at   TIMESTAMPTZ DEFAULT now(),
+  updated_at   TIMESTAMPTZ DEFAULT now()
+);
+
 -- Tabela de configurações (linha única)
 CREATE TABLE IF NOT EXISTS settings (
   id           UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -112,11 +126,13 @@ ALTER TABLE settings   ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Leitura pública - properties" ON properties FOR SELECT USING (true);
 CREATE POLICY "Leitura pública - partners"   ON partners   FOR SELECT USING (true);
 CREATE POLICY "Leitura pública - settings"   ON settings   FOR SELECT USING (true);
+CREATE POLICY "Leitura pública - news"       ON news       FOR SELECT USING (true);
 
 -- Escrita apenas para usuários autenticados (admin)
 CREATE POLICY "Admin write - properties" ON properties FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Admin write - partners"   ON partners   FOR ALL USING (auth.role() = 'authenticated');
 CREATE POLICY "Admin write - settings"   ON settings   FOR ALL USING (auth.role() = 'authenticated');
+CREATE POLICY "Admin write - news"        ON news        FOR ALL USING (auth.role() = 'authenticated');
 
 -- ============================================================
 -- Trigger para atualizar updated_at automaticamente
@@ -136,4 +152,8 @@ CREATE TRIGGER trg_properties_updated_at
 
 CREATE TRIGGER trg_partners_updated_at
   BEFORE UPDATE ON partners
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+
+CREATE TRIGGER trg_news_updated_at
+  BEFORE UPDATE ON news
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
