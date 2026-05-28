@@ -1,5 +1,5 @@
 import React from "react";
-import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabase";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 
@@ -14,7 +14,16 @@ const CATEGORY_LABELS: Record<string, string> = {
 export default function PartnersSection() {
   const { data: partners = [] } = useQuery({
     queryKey: ["partners-active"],
-    queryFn: () => base44.entities.Partner.filter({ active: true }),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("partners")
+        .select("*")
+        .eq("active", true)
+        .order("order_index", { ascending: true })
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
     initialData: [],
   });
 
@@ -31,9 +40,24 @@ export default function PartnersSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {partners.map((partner: any) => (
-            <PartnerCard key={partner.id} partner={partner} />
+        {/* Small icon strip: show first 3 partners as compact logos */}
+        <div className="flex items-center justify-center gap-6 mb-8">
+          {partners.slice(0, 3).map((p: any) => (
+            <div key={p.id} className="w-28 h-12 flex items-center justify-center bg-white border border-border rounded-sm overflow-hidden">
+              {p.logo_url ? (
+                // logo as contained image
+                <img src={p.logo_url} alt={p.name} className="max-h-10 object-contain" />
+              ) : (
+                <div className="text-sm text-muted-foreground">{p.name}</div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Full partners grid (up to 7) with smaller photos */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          {partners.slice(0, 7).map((partner: any) => (
+            <PartnerCard key={partner.id} partner={partner} compact />
           ))}
         </div>
       </div>
@@ -41,31 +65,19 @@ export default function PartnersSection() {
   );
 }
 
-function PartnerCard({ partner }: { partner: any }) {
+function PartnerCard({ partner, compact = false }: { partner: any; compact?: boolean }) {
+  const imgClass = compact ? "w-full h-24 object-contain" : "w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500";
+
   const inner = (
-    <div className="group bg-white border border-border rounded-sm overflow-hidden hover:border-muted-foreground/30 hover:shadow-md transition-all duration-300">
-      {/* Foto */}
-      <div className="relative h-48 bg-secondary overflow-hidden">
+    <div className={`group bg-white border border-border rounded-sm overflow-hidden hover:border-muted-foreground/30 hover:shadow-md transition-all duration-300 ${compact ? "" : ""}`}>
+      <div className={`relative bg-secondary overflow-hidden ${compact ? "h-24" : "h-48"}`}>
         {partner.logo_url ? (
-          <img
-            src={partner.logo_url}
-            alt={partner.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
+          <img src={partner.logo_url} alt={partner.name} className={imgClass} />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-muted-foreground/30">
             {partner.name?.[0]?.toUpperCase()}
           </div>
         )}
-        {/* Category tag */}
-        {partner.category && (
-          <div className="absolute top-3 left-3">
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-sm bg-black/50 text-white backdrop-blur-sm">
-              {CATEGORY_LABELS[partner.category] || partner.category}
-            </span>
-          </div>
-        )}
-        {/* Link icon */}
         {partner.website && (
           <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="w-7 h-7 rounded-sm bg-white/90 flex items-center justify-center shadow">
@@ -75,8 +87,7 @@ function PartnerCard({ partner }: { partner: any }) {
         )}
       </div>
 
-      {/* Info */}
-      <div className="p-4">
+      <div className="p-3">
         <p className="font-semibold text-foreground text-sm leading-tight">{partner.name}</p>
         {partner.description && (
           <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed line-clamp-2">
@@ -87,12 +98,6 @@ function PartnerCard({ partner }: { partner: any }) {
     </div>
   );
 
-  if (partner.website) {
-    return (
-      <a href={partner.website} target="_blank" rel="noopener noreferrer">
-        {inner}
-      </a>
-    );
-  }
+  if (partner.website) return <a href={partner.website} target="_blank" rel="noopener noreferrer">{inner}</a>;
   return inner;
 }

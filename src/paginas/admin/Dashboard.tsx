@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabase";
 import { useQuery } from "@tanstack/react-query";
 import {
   Building2,
@@ -35,7 +36,11 @@ export default function AdminLayout({ children }) {
   });
   const { data: partners } = useQuery({
     queryKey: ["partners-count"],
-    queryFn: () => base44.entities.Partner.list(),
+    queryFn: async () => {
+      const { data, error } = await supabase.from("partners").select("*");
+      if (error) throw error;
+      return data ?? [];
+    },
     initialData: [],
   });
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { supabase } from "@/lib/supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./Dashboard";
 import { Button } from "@/componentes/ui/button";
@@ -59,20 +59,36 @@ export default function AdminPartners() {
 
   const { data: partners = [], isLoading } = useQuery({
     queryKey: ["partners"],
-    queryFn: () => base44.entities.Partner.list(),
+    queryFn: async () => {
+      const { data, error } = await supabase.from("partners").select("*").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
     initialData: [],
   });
 
   const createMut = useMutation({
-    mutationFn: (data: any) => base44.entities.Partner.create(data),
+    mutationFn: async (data: any) => {
+      const { data: res, error } = await supabase.from("partners").insert(data).select().single();
+      if (error) throw error;
+      return res;
+    },
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); closeDialog(); },
   });
   const updateMut = useMutation({
-    mutationFn: ({ id, data }: any) => base44.entities.Partner.update(id, data),
+    mutationFn: async ({ id, data }: any) => {
+      const { data: res, error } = await supabase.from("partners").update(data).eq("id", id).select().single();
+      if (error) throw error;
+      return res;
+    },
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); closeDialog(); },
   });
   const deleteMut = useMutation({
-    mutationFn: (id: string) => base44.entities.Partner.delete(id),
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("partners").delete().eq("id", id);
+      if (error) throw error;
+      return id;
+    },
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); setDeleteId(null); },
   });
 
