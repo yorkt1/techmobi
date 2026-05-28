@@ -227,7 +227,10 @@ export default function AdminNews() {
                 <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
                   Imagem
                 </label>
-                <ImageUpload value={form.image_url} onChange={setField("image_url")} />
+                <ImageUpload
+                  value={form.image_url}
+                  onChange={(url) => setForm((current) => ({ ...current, image_url: url }))}
+                />
               </div>
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
