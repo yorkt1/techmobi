@@ -19,7 +19,6 @@ export default function PartnersSection() {
         .from("partners")
         .select("*")
         .eq("active", true)
-        .order("order_index", { ascending: true })
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];

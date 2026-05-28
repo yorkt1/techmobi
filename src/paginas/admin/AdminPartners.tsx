@@ -73,7 +73,7 @@ export default function AdminPartners() {
       if (error) throw error;
       return res;
     },
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); closeDialog(); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); qc.invalidateQueries({ queryKey: ["partners-active"] }); closeDialog(); },
   });
   const updateMut = useMutation({
     mutationFn: async ({ id, data }: any) => {
@@ -81,7 +81,7 @@ export default function AdminPartners() {
       if (error) throw error;
       return res;
     },
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); closeDialog(); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); qc.invalidateQueries({ queryKey: ["partners-active"] }); closeDialog(); },
   });
   const deleteMut = useMutation({
     mutationFn: async (id: string) => {
@@ -89,7 +89,7 @@ export default function AdminPartners() {
       if (error) throw error;
       return id;
     },
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); setDeleteId(null); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["partners"] }); qc.invalidateQueries({ queryKey: ["partners-active"] }); setDeleteId(null); },
   });
 
   const openCreate = () => { setEditing(null); setForm(EMPTY); setOpen(true); };
