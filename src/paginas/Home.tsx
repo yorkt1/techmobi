@@ -5,6 +5,7 @@ import HeroSection from "@/componentes/home/HeroSection";
 import RecentProperties from "@/componentes/home/RecentProperties";
 import BrokerSection from "@/componentes/home/BrokerSection";
 import DifferentialsSection from "@/componentes/home/DifferentialsSection";
+import ServicesSection from "@/componentes/home/ServicesSection";
 import PartnersSection from "@/componentes/home/PartnersSection";
 import NewsletterSection from "@/componentes/home/NewsletterSection";
 import { useSEO } from "@/lib/useSEO";
@@ -21,6 +22,7 @@ export default function Home() {
       <RecentProperties />
       <BrokerSection />
       <DifferentialsSection />
+      <ServicesSection />
       <PartnersSection />
       <NewsletterSection />
       <Footer />
