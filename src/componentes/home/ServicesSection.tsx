@@ -22,7 +22,7 @@ export default function ServicesSection() {
           <div className="w-24 h-0.5 mx-auto mt-5 bg-slate-500 opacity-60" />
         </div>
 
-        <div className="w-full overflow-hidden rounded-sm border border-border shadow-sm" style={{ height: "clamp(180px, 28vw, 360px)" }}>
+        <div className="w-full overflow-hidden rounded-sm border border-border shadow-sm aspect-[16/5]">
           {imageUrl ? (
             <img
               src={imageUrl}
