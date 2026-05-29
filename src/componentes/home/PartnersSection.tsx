@@ -97,6 +97,9 @@ function PartnerCard({ partner, compact = false }: { partner: any; compact?: boo
     </div>
   );
 
-  if (partner.website) return <a href={partner.website} target="_blank" rel="noopener noreferrer">{inner}</a>;
+  if (partner.website) {
+    const href = /^https?:\/\//i.test(partner.website) ? partner.website : `https://${partner.website}`;
+    return <a href={href} target="_blank" rel="noopener noreferrer">{inner}</a>;
+  }
   return inner;
 }

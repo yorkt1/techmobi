@@ -201,7 +201,7 @@ export default function AdminPartners() {
                   </div>
                   {p.website && (
                     <a
-                      href={p.website}
+                      href={/^https?:\/\//i.test(p.website) ? p.website : `https://${p.website}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-muted-foreground hover:text-slate-600 transition-colors shrink-0 mt-0.5"
