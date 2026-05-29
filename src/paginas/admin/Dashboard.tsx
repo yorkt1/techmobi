@@ -13,6 +13,7 @@ import {
   Users,
   Settings,
   Newspaper,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/componentes/ui/button";
 
@@ -21,6 +22,7 @@ const NAV = [
   { label: "Imóveis", to: "/admin/imoveis", icon: Building2 },
   { label: "Parceiros", to: "/admin/parceiros", icon: Handshake },
   { label: "Notícias", to: "/admin/noticias", icon: Newspaper },
+  { label: "Serviços", to: "/admin/servicos", icon: Briefcase },
   { label: "Leads", to: "/admin/leads", icon: Users },
   { label: "Configurações", to: "/admin/configuracoes", icon: Settings },
 ];

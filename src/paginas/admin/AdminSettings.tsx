@@ -4,7 +4,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./Dashboard";
 import { Input } from "@/componentes/ui/input";
 import { Button } from "@/componentes/ui/button";
-import ImageUpload from "@/componentes/ui/ImageUpload";
 import { Save, Check } from "lucide-react";
 
 interface SettingsForm {
@@ -12,7 +11,6 @@ interface SettingsForm {
   phone: string;
   email: string;
   address: string;
-  services_image_url: string;
 }
 
 export default function AdminSettings() {
@@ -23,7 +21,6 @@ export default function AdminSettings() {
     phone: "",
     email: "",
     address: "",
-    services_image_url: "",
   });
 
   const { data: settings, isLoading: loadingSettings } = useQuery({
@@ -42,7 +39,6 @@ export default function AdminSettings() {
         phone: settings.phone ?? "",
         email: settings.email ?? "",
         address: settings.address ?? "",
-        services_image_url: settings.services_image_url ?? "",
       });
     }
   }, [settings]);
@@ -149,19 +145,6 @@ export default function AdminSettings() {
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
-                Imagem — Nossos Serviços Imobiliários
-              </label>
-              <ImageUpload
-                value={form.services_image_url}
-                onChange={(url) => setForm((f) => ({ ...f, services_image_url: url }))}
-              />
-              <p className="text-xs text-muted-foreground/70 mt-1">
-                Foto horizontal exibida na seção "Nossos Serviços Imobiliários"
-              </p>
-            </div>
-
             <div className="pt-2">
               <Button
                 className="gap-2 rounded-sm"
@@ -188,6 +171,7 @@ export default function AdminSettings() {
           </div>
         )}
       </div>
+
     </AdminLayout>
   );
 }

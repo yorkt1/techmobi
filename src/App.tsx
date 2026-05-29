@@ -15,6 +15,7 @@ import Login from '@/paginas/Login';
 import FormularioPretensao from '@/paginas/FormularioPretensao';
 import AdminLeads from '@/paginas/admin/AdminLeads';
 import AdminSettings from '@/paginas/admin/AdminSettings';
+import AdminServices from '@/paginas/admin/AdminServices';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoadingAuth } = useAuth();
@@ -46,6 +47,7 @@ const AuthenticatedApp = () => {
       <Route path="/admin/parceiros" element={<ProtectedRoute><AdminPartners /></ProtectedRoute>} />
       <Route path="/admin/noticias" element={<ProtectedRoute><AdminNews /></ProtectedRoute>} />
       <Route path="/admin/leads" element={<ProtectedRoute><AdminLeads /></ProtectedRoute>} />
+      <Route path="/admin/servicos" element={<ProtectedRoute><AdminServices /></ProtectedRoute>} />
       <Route path="/admin/configuracoes" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
