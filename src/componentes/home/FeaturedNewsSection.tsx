@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 
 function formatDate(date?: string) {
@@ -63,16 +64,18 @@ export default function FeaturedNewsSection() {
             </div>
           ) : (
             news.map((item) => (
-              <article
+              <Link
                 key={item.id}
-                className="rounded-sm overflow-hidden border border-border bg-white shadow-sm"
+                to={`/noticia/${item.slug || item.id}`}
+                className="group block"
               >
+              <article className="rounded-sm overflow-hidden border border-border bg-white shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-lg">
                 <div className="grid gap-5 md:grid-cols-[320px_minmax(0,1fr)] items-center">
-                  <div className="relative overflow-hidden bg-slate-100">
+                  <div className="relative overflow-hidden bg-slate-100 aspect-[4/3]">
                     <img
                       src={item.image_url || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80"}
                       alt={item.title}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain"
                     />
                   </div>
                   <div className="p-6">
@@ -80,10 +83,11 @@ export default function FeaturedNewsSection() {
                       {formatDate(item.display_date)}
                     </p>
                     <h3 className="mt-3 text-xl font-semibold text-foreground">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.excerpt}</p>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground line-clamp-3">{item.excerpt}</p>
                   </div>
                 </div>
               </article>
+            </Link>
             ))
           )}
         </div>

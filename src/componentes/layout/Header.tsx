@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: "Comprar", to: "/imoveis?transaction=venda" },
   { label: "Alugar", to: "/imoveis?transaction=aluguel" },
   { label: "Imóveis", to: "/imoveis" },
+  { label: "Notícias", to: "/noticias" },
   { label: "Sobre", to: "/#sobre" },
   { label: "Formulário", to: "/formulario" },
 ];

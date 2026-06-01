@@ -9,6 +9,8 @@
 -- ============================================================
 -- ALTER TABLE properties ADD COLUMN IF NOT EXISTS code TEXT;
 -- ALTER TABLE properties ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}';
+-- ALTER TABLE news ADD COLUMN IF NOT EXISTS content TEXT;
+-- ALTER TABLE news ADD COLUMN IF NOT EXISTS slug TEXT UNIQUE;
 --
 -- Se a tabela subscribers já existir, adicione as colunas:
 -- ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS phone TEXT;
@@ -90,6 +92,8 @@ CREATE TABLE IF NOT EXISTS news (
   id           UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
   title        TEXT        NOT NULL,
   excerpt      TEXT,
+  content      TEXT,
+  slug         TEXT        UNIQUE,
   image_url    TEXT,
   display_date TEXT,
   featured     BOOLEAN     DEFAULT true,

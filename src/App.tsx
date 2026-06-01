@@ -13,6 +13,8 @@ import AdminPartners from '@/paginas/admin/AdminPartners';
 import AdminNews from '@/paginas/admin/AdminNews';
 import Login from '@/paginas/Login';
 import FormularioPretensao from '@/paginas/FormularioPretensao';
+import News from '@/paginas/News';
+import NewsDetail from '@/paginas/NewsDetail';
 import AdminLeads from '@/paginas/admin/AdminLeads';
 import AdminSettings from '@/paginas/admin/AdminSettings';
 import AdminServices from '@/paginas/admin/AdminServices';
@@ -40,6 +42,8 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Home />} />
       <Route path="/imoveis" element={<Properties />} />
       <Route path="/imovel/:id" element={<PropertyDetail />} />
+      <Route path="/noticias" element={<News />} />
+      <Route path="/noticia/:slug" element={<NewsDetail />} />
       <Route path="/formulario" element={<FormularioPretensao />} />
       <Route path="/login" element={<Login />} />
       <Route path="/admin" element={<ProtectedRoute><AdminOverview /></ProtectedRoute>} />

@@ -7,6 +7,7 @@ import { Button } from "@/componentes/ui/button";
 import { Input } from "@/componentes/ui/input";
 import { Textarea } from "@/componentes/ui/textarea";
 import ImageUpload from "@/componentes/ui/ImageUpload";
+import TiptapEditor from "@/componentes/ui/TiptapEditor";
 import {
   Dialog,
   DialogContent,
@@ -30,13 +31,32 @@ const EMPTY_ITEM = {
   id: undefined,
   title: "",
   excerpt: "",
+  content: "",
+  slug: "",
   image_url: "",
   display_date: "",
   featured: true,
   active: true,
 };
 
-type NewsItem = typeof EMPTY_ITEM;
+type NewsItem = {
+  id?: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  slug: string;
+  image_url?: string | null;
+  display_date?: string | null;
+  featured: boolean;
+  active: boolean;
+};
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
 
 export default function AdminNews() {
   const qc = useQueryClient();
@@ -119,6 +139,8 @@ export default function AdminNews() {
     const payload = {
       title: form.title,
       excerpt: form.excerpt,
+      content: form.content,
+      slug: form.slug || slugify(form.title),
       image_url: form.image_url || null,
       display_date: form.display_date || null,
       featured: form.featured,
@@ -133,8 +155,14 @@ export default function AdminNews() {
   };
 
   const setField = (field: keyof NewsItem) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((current) => ({ ...current, [field]: e.target.value }));
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const value = e.target.value;
+      setForm((current) => ({
+        ...current,
+        [field]: value,
+        ...(field === "title" ? { slug: slugify(value) } : {}),
+      }));
+    };
 
   const setCheckbox = (field: keyof Pick<NewsItem, "active" | "featured">) =>
     (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -217,9 +245,26 @@ export default function AdminNews() {
 
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
+                Slug da notícia
+              </label>
+              <Input value={form.slug} readOnly placeholder="slug-da-noticia" className="rounded-sm bg-slate-100" />
+              <p className="text-xs text-muted-foreground mt-1">
+                URL automática baseada no título. Use apenas letras, números e hífen.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
                 Resumo
               </label>
               <Textarea value={form.excerpt} onChange={setField("excerpt")} placeholder="Resumo curto da notícia" className="rounded-sm" />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">
+                Conteúdo completo
+              </label>
+              <TiptapEditor value={form.content} onChange={(content) => setForm((current) => ({ ...current, content }))} />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
