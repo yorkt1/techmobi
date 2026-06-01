@@ -53,11 +53,11 @@ export default function NewsDetail() {
             </div>
           ) : (
             <article className="rounded-sm border border-border bg-white shadow-sm overflow-hidden">
-              <div className="relative overflow-hidden bg-slate-100">
+              <div className="relative overflow-hidden bg-slate-100 h-72 sm:h-80 md:h-96 lg:h-[420px]">
                 <img
                   src={news.image_url || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80"}
                   alt={news.title}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-contain object-center"
                 />
               </div>
               <div className="p-6">
