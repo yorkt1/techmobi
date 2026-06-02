@@ -1,19 +1,35 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
-const SLIDES = [
-  {
-    id: 1,
-    image: "https://res.cloudinary.com/dqewxdbfx/image/upload/v1779223985/WhatsApp_Image_2026-05-19_at_10.03.40_ziifbg.jpg",
-    alt: "Wagner Kaizer Consultoria Imobiliária",
-  },
-];
+// Imagem padrão caso nenhuma capa tenha sido enviada pelo painel
+const DEFAULT_HERO =
+  "https://res.cloudinary.com/dqewxdbfx/image/upload/v1779223985/WhatsApp_Image_2026-05-19_at_10.03.40_ziifbg.jpg";
 
 const INTERVAL = 5000;
 
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+
+  // Busca a capa cadastrada no painel admin (Configurações)
+  const { data: settings } = useQuery({
+    queryKey: ["settings"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("settings").select("*").single();
+      if (error) throw error;
+      return data ?? {};
+    },
+  });
+
+  const SLIDES = [
+    {
+      id: 1,
+      image: settings?.hero_image_url || DEFAULT_HERO,
+      alt: settings?.company_name || "Wagner Kaizer Consultoria Imobiliária",
+    },
+  ];
 
   const prev = useCallback(() => {
     setCurrent((c) => (c === 0 ? SLIDES.length - 1 : c - 1));

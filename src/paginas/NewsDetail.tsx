@@ -60,18 +60,17 @@ export default function NewsDetail() {
                   className="h-full w-full object-contain object-center"
                 />
               </div>
-              <div className="p-6">
-                <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="p-5 sm:p-6 lg:p-8">
+                <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
                   {formatDate(news.display_date)}
                 </p>
-                <h1 className="mt-3 text-3xl font-semibold text-foreground">{news.title}</h1>
-                <div className="mt-6 prose max-w-none prose-slate text-sm leading-7 text-muted-foreground">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: news.content ?? news.excerpt ?? "",
-                    }}
-                  />
-                </div>
+                <h1 className="mt-3 text-2xl sm:text-3xl font-semibold text-foreground break-words">{news.title}</h1>
+                <div
+                  className="mt-6 rich-text"
+                  dangerouslySetInnerHTML={{
+                    __html: news.content ?? news.excerpt ?? "",
+                  }}
+                />
                 <Link
                   to="/noticias"
                   className="mt-8 inline-flex items-center rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"

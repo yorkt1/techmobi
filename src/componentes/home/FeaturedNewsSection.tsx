@@ -82,7 +82,7 @@ export default function FeaturedNewsSection() {
                     <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
                       {formatDate(item.display_date)}
                     </p>
-                    <h3 className="mt-3 text-xl font-semibold text-foreground">{item.title}</h3>
+                    <h3 className="mt-3 text-xl font-semibold text-foreground break-words">{item.title}</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground line-clamp-3">{item.excerpt}</p>
                   </div>
                 </div>

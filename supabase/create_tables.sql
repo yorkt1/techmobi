@@ -111,9 +111,13 @@ CREATE TABLE IF NOT EXISTS settings (
   email        TEXT,
   address      TEXT,
   logo_url     TEXT,
+  hero_image_url TEXT,
   created_at   TIMESTAMPTZ DEFAULT now(),
   updated_at   TIMESTAMPTZ DEFAULT now()
 );
+
+-- Caso a tabela settings já exista, garante a coluna da capa (imagem do topo da home)
+ALTER TABLE settings ADD COLUMN IF NOT EXISTS hero_image_url TEXT;
 
 -- Inserir configuração padrão
 INSERT INTO settings (company_name, phone) VALUES ('Wagner Kaizer Consultoria Imobiliária', '554891932966') ON CONFLICT DO NOTHING;

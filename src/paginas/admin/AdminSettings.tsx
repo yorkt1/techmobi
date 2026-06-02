@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./Dashboard";
 import { Input } from "@/componentes/ui/input";
 import { Button } from "@/componentes/ui/button";
+import ImageUpload from "@/componentes/ui/ImageUpload";
 import { Save, Check } from "lucide-react";
 
 interface SettingsForm {
@@ -11,6 +12,7 @@ interface SettingsForm {
   phone: string;
   email: string;
   address: string;
+  hero_image_url: string;
 }
 
 export default function AdminSettings() {
@@ -21,6 +23,7 @@ export default function AdminSettings() {
     phone: "",
     email: "",
     address: "",
+    hero_image_url: "",
   });
 
   const { data: settings, isLoading: loadingSettings } = useQuery({
@@ -39,6 +42,7 @@ export default function AdminSettings() {
         phone: settings.phone ?? "",
         email: settings.email ?? "",
         address: settings.address ?? "",
+        hero_image_url: settings.hero_image_url ?? "",
       });
     }
   }, [settings]);
@@ -75,6 +79,48 @@ export default function AdminSettings() {
           <p className="text-sm text-muted-foreground mt-1">
             Dados de contato exibidos no site para os visitantes
           </p>
+        </div>
+      </div>
+
+      <div className="bg-white border border-border shadow-sm rounded-sm max-w-3xl mb-6">
+        <div className="px-6 py-5 border-b border-border">
+          <p className="text-sm font-semibold text-navy-900 font-sans normal-case">
+            Capa do site (foto do topo da página inicial)
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Envie uma foto para usar como capa. Para trocar depois, é só passar o mouse sobre a
+            imagem e clicar em “Trocar foto”. Recomendado: imagem na horizontal, boa qualidade.
+          </p>
+        </div>
+        <div className="p-6">
+          {loadingSettings ? (
+            <div className="skeleton h-52 rounded-sm" />
+          ) : (
+            <>
+              <ImageUpload
+                value={form.hero_image_url}
+                onChange={(url) => setForm((f) => ({ ...f, hero_image_url: url }))}
+              />
+              <div className="pt-4">
+                <Button
+                  className="gap-2 rounded-sm"
+                  onClick={() => saveSettingsMut.mutate()}
+                  disabled={saveSettingsMut.isPending || !settings?.id}
+                >
+                  {savedSettings ? (
+                    <>
+                      <Check className="w-4 h-4" /> Salvo!
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" />
+                      {saveSettingsMut.isPending ? "Salvando…" : "Salvar capa"}
+                    </>
+                  )}
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

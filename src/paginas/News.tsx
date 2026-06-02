@@ -70,7 +70,7 @@ export default function News() {
                     <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
                       {formatDate(item.display_date)}
                     </p>
-                    <h2 className="mt-3 text-lg font-semibold text-foreground">{item.title}</h2>
+                    <h2 className="mt-3 text-lg font-semibold text-foreground break-words">{item.title}</h2>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground line-clamp-3">
                       {item.excerpt}
                     </p>
