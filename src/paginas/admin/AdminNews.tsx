@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -53,10 +53,11 @@ type NewsItem = {
 
 const slugify = (value: string) =>
   value
+    .normalize("NFD")                 // separa letra e acento (ç -> c + diacrítico)
+    .replace(/[\u0300-\u036f]/g, "")  // remove os acentos
     .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
+    .replace(/[^a-z0-9]+/g, "-")      // emoji, espaços, "!" etc viram hífen
+    .replace(/^-+|-+$/g, "");         // tira hífens das pontas
 
 export default function AdminNews() {
   const qc = useQueryClient();
@@ -140,7 +141,7 @@ export default function AdminNews() {
       title: form.title,
       excerpt: form.excerpt,
       content: form.content,
-      slug: form.slug || slugify(form.title),
+      slug: slugify(form.title),
       image_url: form.image_url || null,
       display_date: form.display_date || null,
       featured: form.featured,
