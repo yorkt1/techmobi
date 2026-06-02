@@ -11,9 +11,9 @@ function formatDate(date?: string) {
 function SkeletonItem() {
   return (
     <article className="rounded-sm overflow-hidden border border-border bg-white shadow-sm">
-      <div className="grid gap-5 md:grid-cols-[320px_minmax(0,1fr)] items-center">
+      <div className="grid gap-5 grid-cols-1 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] items-center">
         <div className="h-52 bg-slate-100 skeleton" />
-        <div className="p-6 space-y-4">
+        <div className="min-w-0 p-6 space-y-4">
           <div className="skeleton h-4 w-32" />
           <div className="skeleton h-8 w-1/2" />
           <div className="skeleton h-4 w-full" />
@@ -70,7 +70,7 @@ export default function FeaturedNewsSection() {
                 className="group block"
               >
               <article className="rounded-sm overflow-hidden border border-border bg-white shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-lg">
-                <div className="grid gap-5 md:grid-cols-[320px_minmax(0,1fr)] items-center">
+                <div className="grid gap-5 grid-cols-1 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] items-center">
                   <div className="relative overflow-hidden bg-slate-100 h-52 sm:h-60 md:h-72">
                     <img
                       src={item.image_url || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80"}
@@ -78,7 +78,7 @@ export default function FeaturedNewsSection() {
                       className="h-full w-full object-contain object-center"
                     />
                   </div>
-                  <div className="p-6">
+                  <div className="min-w-0 p-6">
                     <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
                       {formatDate(item.display_date)}
                     </p>

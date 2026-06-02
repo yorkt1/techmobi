@@ -87,6 +87,10 @@
     line-height: 1.1;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    /* Garante que títulos longos quebrem em vez de estourar a tela no celular */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   a {
