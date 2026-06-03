@@ -59,11 +59,31 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")      // emoji, espaços, "!" etc viram hífen
     .replace(/^-+|-+$/g, "");         // tira hífens das pontas
 
+// Código curto e estável no fim da URL: garante que o link nunca colida
+// nem quebre se o título mudar. Ex.: "geracao-z-setor-de-imoveis-a1b2c3"
+const randomCode = () => Math.random().toString(36).slice(2, 8);
+
+const buildSlug = (title: string, code: string) => {
+  const base = slugify(title);
+  return base ? `${base}-${code}` : code;
+};
+
+// Recupera o código de uma notícia já no formato novo ("titulo-limpo-codigo").
+// Para slugs legados (emoji/acento) devolve "" para um código novo ser gerado.
+const codeFromSlug = (item: NewsItem) => {
+  const base = slugify(item.title);
+  if (base && item.slug.startsWith(`${base}-`)) {
+    return item.slug.slice(base.length + 1);
+  }
+  return "";
+};
+
 export default function AdminNews() {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<NewsItem | null>(null);
   const [form, setForm] = useState<NewsItem>(EMPTY_ITEM);
+  const [code, setCode] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const { data: news = [], isLoading } = useQuery<NewsItem[]>({
@@ -127,12 +147,16 @@ export default function AdminNews() {
   const openCreate = () => {
     setEditing(null);
     setForm(EMPTY_ITEM);
+    setCode(randomCode());
     setOpen(true);
   };
 
   const openEdit = (item: NewsItem) => {
+    // Reaproveita o código atual; se for um slug legado, gera um novo.
+    const itemCode = codeFromSlug(item) || randomCode();
+    setCode(itemCode);
     setEditing(item);
-    setForm(item);
+    setForm({ ...item, slug: buildSlug(item.title, itemCode) });
     setOpen(true);
   };
 
@@ -141,7 +165,7 @@ export default function AdminNews() {
       title: form.title,
       excerpt: form.excerpt,
       content: form.content,
-      slug: slugify(form.title),
+      slug: buildSlug(form.title, code),
       image_url: form.image_url || null,
       display_date: form.display_date || null,
       featured: form.featured,
@@ -161,7 +185,7 @@ export default function AdminNews() {
       setForm((current) => ({
         ...current,
         [field]: value,
-        ...(field === "title" ? { slug: slugify(value) } : {}),
+        ...(field === "title" ? { slug: buildSlug(value, code) } : {}),
       }));
     };
 
