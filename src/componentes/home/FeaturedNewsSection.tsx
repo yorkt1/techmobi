@@ -38,7 +38,6 @@ export default function FeaturedNewsSection() {
       if (error) throw error;
       return data ?? [];
     },
-    initialData: [],
   });
 
   return (

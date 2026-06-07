@@ -37,7 +37,6 @@ export default function PropertyDetail() {
   const { data: properties, isLoading } = useQuery({
     queryKey: ["property", propertyId],
     queryFn: () => base44.entities.Property.list(),
-    initialData: [],
   });
 
   const { data: settings } = useQuery({
@@ -46,7 +45,7 @@ export default function PropertyDetail() {
   });
 
   const phone = settings?.phone || FALLBACK_PHONE;
-  const property = properties.find((p) => String(p.id) === propertyId);
+  const property = properties?.find((p) => String(p.id) === propertyId);
 
   const mainImage = Array.isArray(property?.images) && property.images.length > 0
     ? property.images[0]
@@ -125,7 +124,7 @@ export default function PropertyDetail() {
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 min-w-0">
               {/* Gallery */}
               <div className="overflow-hidden rounded-sm border border-border">
                 {allImages.length > 0 ? (
@@ -202,7 +201,7 @@ export default function PropertyDetail() {
                 </div>
 
                 {/* Stats */}
-                <div className="flex flex-wrap items-center gap-6 mt-6 py-4 border-t border-b border-border">
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-4 mt-6 py-4 border-t border-b border-border">
                   {property.bedrooms > 0 && (
                     <div className="flex items-center gap-2">
                       <Bed className="w-5 h-5 text-muted-foreground" />
@@ -245,7 +244,7 @@ export default function PropertyDetail() {
                 {property.description && (
                   <div className="mt-6">
                     <h3 className="font-semibold text-foreground mb-3">Descrição</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                    <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line break-words">
                       {property.description}
                     </p>
                   </div>
@@ -254,7 +253,7 @@ export default function PropertyDetail() {
             </div>
 
             {/* Sidebar */}
-            <div>
+            <div className="min-w-0">
               <div className="border border-border rounded-sm p-6 sticky top-24">
                 <p className="text-2xl font-bold text-foreground tracking-tight">
                   {formatPrice(property.price)}

@@ -83,19 +83,16 @@ export default function RecentProperties() {
   const { data: featured = [], isLoading: loadingFeatured } = useQuery({
     queryKey: ["featured-properties"],
     queryFn: () => queryProperties(undefined, 3),
-    initialData: [],
   });
 
   const { data: venda = [], isLoading: loadingVenda } = useQuery({
     queryKey: ["venda-properties"],
     queryFn: () => queryProperties({ transaction: "venda" }, 9),
-    initialData: [],
   });
 
   const { data: aluguel = [], isLoading: loadingAluguel } = useQuery({
     queryKey: ["aluguel-properties"],
     queryFn: () => queryProperties({ transaction: "aluguel" }, 6),
-    initialData: [],
   });
 
   const featuredIds = new Set(featured.map((p: any) => p.id));

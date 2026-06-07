@@ -21,7 +21,6 @@ export default function News() {
       if (error) throw error;
       return data ?? [];
     },
-    initialData: [],
   });
 
   useSEO({

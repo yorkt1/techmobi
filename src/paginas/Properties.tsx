@@ -81,11 +81,10 @@ export default function Properties() {
   const { data: properties, isLoading } = useQuery({
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 100),
-    initialData: [],
   });
 
   const filtered = useMemo(
-    () => sortProperties(applyFilters(properties, filters), sort),
+    () => sortProperties(applyFilters(properties ?? [], filters), sort),
     [properties, filters, sort]
   );
 
