@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Bed, Bath, Maximize2, MapPin, Car } from "lucide-react";
+import { propertyPath } from "@/lib/property-links";
 
 function formatPrice(value: number | undefined) {
   if (!value) return "Consulte";
@@ -21,6 +22,7 @@ function formatType(type: string) {
 
 interface Property {
   id: string;
+  shortId?: number;
   title: string;
   price?: number;
   transaction?: string;
@@ -41,7 +43,7 @@ export default function PropertyCard({ property }: { property: Property }) {
     : property.image_url;
 
   return (
-    <Link to={`/imovel/${property.id}`} className="property-card block group">
+    <Link to={propertyPath(property)} className="property-card block group">
 
       {/* Image */}
       <div className="card-img">

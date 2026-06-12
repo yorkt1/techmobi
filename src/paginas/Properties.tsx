@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Header from "@/componentes/layout/Header";
 import Footer from "@/componentes/layout/Footer";
 import PropertyCard from "@/componentes/home/PropertyCard";
+import { withShortIds } from "@/lib/property-links";
 import FilterSidebar from "@/componentes/properties/FilterSidebar";
 import { Skeleton } from "@/componentes/ui/skeleton";
 import { SlidersHorizontal, X } from "lucide-react";
@@ -80,7 +81,7 @@ export default function Properties() {
 
   const { data: properties, isLoading } = useQuery({
     queryKey: ["properties"],
-    queryFn: () => base44.entities.Property.list("-created_date", 100),
+    queryFn: async () => withShortIds(await base44.entities.Property.list("-created_date", 100)),
   });
 
   const filtered = useMemo(

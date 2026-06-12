@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "@/componentes/layout/Header";
 import Footer from "@/componentes/layout/Footer";
 import { Button } from "@/componentes/ui/button";
 import { Badge } from "@/componentes/ui/badge";
 import { Skeleton } from "@/componentes/ui/skeleton";
-import { Bed, Bath, Maximize2, MapPin, ArrowLeft, MessageCircle, Phone, Car, ChevronLeft, ChevronRight } from "lucide-react";
+import { Bed, Bath, Maximize2, MapPin, ArrowLeft, MessageCircle, Phone, Car, ChevronLeft, ChevronRight, Share2, Check } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
+import { resolvePropertyId, withShortIds, propertyPath } from "@/lib/property-links";
 
 const FALLBACK_PHONE = "554891932966";
 
@@ -30,13 +31,13 @@ function formatType(type) {
 }
 
 export default function PropertyDetail() {
-  const pathParts = window.location.pathname.split("/");
-  const propertyId = pathParts[pathParts.length - 1];
+  const { id: routeId } = useParams();
   const [activeImg, setActiveImg] = useState(0);
+  const [copied, setCopied] = useState(false);
 
   const { data: properties, isLoading } = useQuery({
-    queryKey: ["property", propertyId],
-    queryFn: () => base44.entities.Property.list(),
+    queryKey: ["all-properties"],
+    queryFn: async () => withShortIds(await base44.entities.Property.list()),
   });
 
   const { data: settings } = useQuery({
@@ -45,7 +46,24 @@ export default function PropertyDetail() {
   });
 
   const phone = settings?.phone || FALLBACK_PHONE;
-  const property = properties?.find((p) => String(p.id) === propertyId);
+  const realId = resolvePropertyId(routeId, properties ?? []);
+  const property = properties?.find((p) => p.id === realId);
+
+  const handleShare = async () => {
+    if (!property) return;
+    const url = `${window.location.origin}${propertyPath(property)}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: property.title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch {
+      /* usuário cancelou o compartilhamento — ignora */
+    }
+  };
 
   const mainImage = Array.isArray(property?.images) && property.images.length > 0
     ? property.images[0]
@@ -278,6 +296,14 @@ export default function PropertyDetail() {
                       <Phone className="w-4 h-4" />
                       Ligar agora
                     </a>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full gap-2 rounded-sm h-11"
+                    onClick={handleShare}
+                  >
+                    {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
+                    {copied ? "Link copiado!" : "Compartilhar"}
                   </Button>
                 </div>
 

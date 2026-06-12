@@ -42,6 +42,7 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Home />} />
       <Route path="/imoveis" element={<Properties />} />
       <Route path="/imovel/:id" element={<PropertyDetail />} />
+      <Route path="/imovel/:id/:slug" element={<PropertyDetail />} />
       <Route path="/noticias" element={<News />} />
       <Route path="/noticia/:slug" element={<NewsDetail />} />
       <Route path="/formulario" element={<FormularioPretensao />} />

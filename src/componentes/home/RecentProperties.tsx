@@ -4,14 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import PropertyCard from "./PropertyCard";
+import { withShortIds } from "@/lib/property-links";
 import FeaturedNewsSection from "./FeaturedNewsSection";
 
-async function queryProperties(filter?: { transaction: string }, limit = 6) {
-  let q = supabase.from("properties").select("*").order("created_at", { ascending: false }).limit(limit);
-  if (filter) q = q.eq("transaction", filter.transaction);
-  const { data, error } = await q;
+// Busca a lista completa ordenada por created_at desc e anexa o shortId (posição
+// global). Filtrar/limitar acontece no cliente para que o shortId fique
+// consistente com o link curto em todas as seções.
+async function queryAllProperties() {
+  const { data, error } = await supabase
+    .from("properties")
+    .select("*")
+    .order("created_at", { ascending: false });
   if (error) throw error;
-  return data ?? [];
+  return withShortIds(data ?? []);
 }
 
 function SkeletonGrid({ count = 3 }: { count?: number }) {
@@ -80,20 +85,18 @@ function PropertyGrid({ properties }: { properties: any[] }) {
 }
 
 export default function RecentProperties() {
-  const { data: featured = [], isLoading: loadingFeatured } = useQuery({
-    queryKey: ["featured-properties"],
-    queryFn: () => queryProperties(undefined, 3),
+  const { data: all = [], isLoading } = useQuery({
+    queryKey: ["home-properties"],
+    queryFn: queryAllProperties,
   });
 
-  const { data: venda = [], isLoading: loadingVenda } = useQuery({
-    queryKey: ["venda-properties"],
-    queryFn: () => queryProperties({ transaction: "venda" }, 9),
-  });
+  const loadingFeatured = isLoading;
+  const loadingVenda = isLoading;
+  const loadingAluguel = isLoading;
 
-  const { data: aluguel = [], isLoading: loadingAluguel } = useQuery({
-    queryKey: ["aluguel-properties"],
-    queryFn: () => queryProperties({ transaction: "aluguel" }, 6),
-  });
+  const featured = all.slice(0, 3);
+  const venda = all.filter((p: any) => p.transaction === "venda").slice(0, 9);
+  const aluguel = all.filter((p: any) => p.transaction === "aluguel").slice(0, 6);
 
   const featuredIds = new Set(featured.map((p: any) => p.id));
 
