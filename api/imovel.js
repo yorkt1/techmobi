@@ -1,3 +1,5 @@
+/* global process */
+
 /**
  * Função serverless (Vercel) — injeta meta tags Open Graph por imóvel.
  *
@@ -131,14 +133,14 @@ async function fetchProperty(rawId) {
 }
 
 /** Monta título, descrição e imagem do preview a partir do imóvel. */
-function buildMeta(property, origin) {
+function buildMeta(property, origin, publicUrl = "") {
   if (!property) {
     return {
       title: `${SITE_NAME} — Imóveis no Norte da Ilha de Florianópolis`,
       description: DEFAULT_DESCRIPTION,
       image: DEFAULT_IMAGE,
       imageSized: false,
-      url: origin,
+      url: publicUrl || origin,
     };
   }
 
@@ -173,7 +175,7 @@ function buildMeta(property, origin) {
     description,
     image,
     imageSized,
-    url: `${origin}/imovel/${property.id}`,
+    url: publicUrl || `${origin}/imovel/${property.id}`,
   };
 }
 
@@ -238,17 +240,46 @@ function injectMeta(html, meta) {
 // Exportadas para reuso em testes / emulador local (scripts/dev-og.mjs).
 export { fetchProperty, buildMeta, injectMeta, metaTagsHtml };
 
+function queryValue(value) {
+  if (Array.isArray(value)) return value[0] ?? "";
+  return String(value ?? "");
+}
+
+function safePathPart(value) {
+  return String(value ?? "")
+    .split("/")
+    .filter(Boolean)
+    .map((part) => encodeURIComponent(part))
+    .join("/");
+}
+
+function sharedUrl(req, origin) {
+  const id = safePathPart(queryValue(req.query?.id).trim());
+  const rest = safePathPart(queryValue(req.query?.rest).trim());
+  const version = queryValue(req.query?.v).trim();
+  const params = new URLSearchParams();
+
+  if (/^[a-z0-9_.-]{1,80}$/i.test(version)) {
+    params.set("v", version);
+  }
+
+  const path = rest ? `/imovel/${id}/${rest}` : `/imovel/${id}`;
+  const query = params.toString();
+  return `${origin}${path}${query ? `?${query}` : ""}`;
+}
+
 export default async function handler(req, res) {
-  const id = req.query?.id ?? "";
+  const id = queryValue(req.query?.id);
   const host = safeHost(req);
   const origin = SITE_URL || `https://${host}`;
+  const publicUrl = sharedUrl(req, origin);
 
   let meta;
   try {
     const property = await fetchProperty(id);
-    meta = buildMeta(property, origin);
+    meta = buildMeta(property, origin, publicUrl);
   } catch {
-    meta = buildMeta(null, origin);
+    meta = buildMeta(null, origin, publicUrl);
   }
 
   // Busca o shell estático da SPA e injeta as meta tags.

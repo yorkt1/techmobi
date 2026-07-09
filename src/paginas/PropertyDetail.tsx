@@ -9,7 +9,7 @@ import { Badge } from "@/componentes/ui/badge";
 import { Skeleton } from "@/componentes/ui/skeleton";
 import { Bed, Bath, Maximize2, MapPin, ArrowLeft, MessageCircle, Phone, Car, ChevronLeft, ChevronRight, Share2, Check } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
-import { resolvePropertyId, withShortIds, propertyPath } from "@/lib/property-links";
+import { resolvePropertyId, withShortIds, propertySharePath } from "@/lib/property-links";
 
 const FALLBACK_PHONE = "554891932966";
 
@@ -51,7 +51,7 @@ export default function PropertyDetail() {
 
   const handleShare = async () => {
     if (!property) return;
-    const url = `${window.location.origin}${propertyPath(property)}`;
+    const url = `${window.location.origin}${propertySharePath(property)}`;
     try {
       if (navigator.share) {
         await navigator.share({ title: property.title, url });

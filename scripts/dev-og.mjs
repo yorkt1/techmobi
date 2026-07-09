@@ -57,7 +57,7 @@ const server = http.createServer(async (req, res) => {
     let html;
     try {
       const property = await fetchProperty(match[1]);
-      html = injectMeta(shell, buildMeta(property, origin));
+      html = injectMeta(shell, buildMeta(property, origin, `${origin}${path}${url.search}`));
       console.log(`[imovel] id=${match[1]} → ${property ? property.title : "NÃO ENCONTRADO (usa fallback)"}`);
     } catch (err) {
       html = shell;

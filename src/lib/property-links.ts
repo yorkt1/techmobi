@@ -15,6 +15,9 @@ export interface PropertyLike {
   neighborhood?: string;
   city?: string;
   shortId?: number;
+  image_url?: string;
+  images?: string[];
+  updated_at?: string;
 }
 
 const ACCENT_MAP: Record<string, string> = {
@@ -52,6 +55,26 @@ export function propertyPath(property: PropertyLike) {
   const routeId = property.shortId ?? property.id;
   const slug = propertySlug(property);
   return slug ? `/imovel/${routeId}/${slug}` : `/imovel/${routeId}`;
+}
+
+function hashText(value: string) {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = Math.imul(31, hash) + value.charCodeAt(i) | 0;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+function previewVersion(property: PropertyLike) {
+  const mainImage = Array.isArray(property.images) && property.images.length > 0
+    ? property.images[0]
+    : property.image_url;
+  return hashText([property.updated_at, mainImage, property.title].filter(Boolean).join("|"));
+}
+
+/** Caminho para compartilhar; o v= força apps de preview a buscarem a versão atual. */
+export function propertySharePath(property: PropertyLike) {
+  return `${propertyPath(property)}?v=${previewVersion(property)}`;
 }
 
 /** Anexa shortId (posição em created_at desc) a cada item da lista já ordenada. */
