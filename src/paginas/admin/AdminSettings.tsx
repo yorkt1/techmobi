@@ -13,6 +13,7 @@ interface SettingsForm {
   email: string;
   address: string;
   hero_image_url: string;
+  hero_image_mobile_url: string;
 }
 
 export default function AdminSettings() {
@@ -24,6 +25,7 @@ export default function AdminSettings() {
     email: "",
     address: "",
     hero_image_url: "",
+    hero_image_mobile_url: "",
   });
 
   const { data: settings, isLoading: loadingSettings } = useQuery({
@@ -43,6 +45,7 @@ export default function AdminSettings() {
         email: settings.email ?? "",
         address: settings.address ?? "",
         hero_image_url: settings.hero_image_url ?? "",
+        hero_image_mobile_url: settings.hero_image_mobile_url ?? "",
       });
     }
   }, [settings]);
@@ -88,8 +91,9 @@ export default function AdminSettings() {
             Capa do site (foto do topo da página inicial)
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            Envie uma foto para usar como capa. Para trocar depois, é só passar o mouse sobre a
-            imagem e clicar em “Trocar foto”. Recomendado: imagem na horizontal, boa qualidade.
+            Envie uma foto para o computador (horizontal) e outra para o celular (vertical). O site
+            escolhe automaticamente a melhor conforme o dispositivo. Para trocar depois, passe o
+            mouse sobre a imagem e clique em “Trocar foto”.
           </p>
         </div>
         <div className="p-6">
@@ -97,10 +101,31 @@ export default function AdminSettings() {
             <div className="skeleton h-52 rounded-sm" />
           ) : (
             <>
-              <ImageUpload
-                value={form.hero_image_url}
-                onChange={(url) => setForm((f) => ({ ...f, hero_image_url: url }))}
-              />
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                    Computador / desktop (horizontal)
+                  </p>
+                  <ImageUpload
+                    value={form.hero_image_url}
+                    onChange={(url) => setForm((f) => ({ ...f, hero_image_url: url }))}
+                  />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                    Celular (vertical)
+                  </p>
+                  <ImageUpload
+                    value={form.hero_image_mobile_url}
+                    onChange={(url) =>
+                      setForm((f) => ({ ...f, hero_image_mobile_url: url }))
+                    }
+                  />
+                  <p className="text-[11px] text-muted-foreground/70 mt-1.5">
+                    Se ficar vazio, o site usa a imagem do computador também no celular.
+                  </p>
+                </div>
+              </div>
               <div className="pt-4">
                 <Button
                   className="gap-2 rounded-sm"
