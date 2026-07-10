@@ -110,6 +110,12 @@ export default function AdminSettings() {
                     value={form.hero_image_url}
                     onChange={(url) => setForm((f) => ({ ...f, hero_image_url: url }))}
                   />
+                  <Input
+                    value={form.hero_image_url}
+                    onChange={setField("hero_image_url")}
+                    placeholder="ou cole o link da imagem aqui (https://...)"
+                    className="rounded-sm mt-2 text-xs"
+                  />
                 </div>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
@@ -120,6 +126,12 @@ export default function AdminSettings() {
                     onChange={(url) =>
                       setForm((f) => ({ ...f, hero_image_mobile_url: url }))
                     }
+                  />
+                  <Input
+                    value={form.hero_image_mobile_url}
+                    onChange={setField("hero_image_mobile_url")}
+                    placeholder="ou cole o link da imagem aqui (https://...)"
+                    className="rounded-sm mt-2 text-xs"
                   />
                   <p className="text-[11px] text-muted-foreground/70 mt-1.5">
                     Se ficar vazio, o site usa a imagem do computador também no celular.

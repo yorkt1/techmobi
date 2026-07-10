@@ -8,7 +8,7 @@ export default function HeroSection() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("settings")
-        .select("company_name, hero_image_url, hero_image_mobile_url")
+        .select("*")
         .single();
       if (error) throw error;
       return data ?? {};
