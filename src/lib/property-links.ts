@@ -65,11 +65,23 @@ function hashText(value: string) {
   return Math.abs(hash).toString(36);
 }
 
+/**
+ * "Carimbo" global de cache do preview. O WhatsApp/Facebook guardam o preview
+ * por URL; aumente este número para gerar um `?v=` novo em TODOS os imóveis de
+ * uma vez e forçar os apps a buscarem o preview atualizado (ignora o cache antigo
+ * que ficou sem foto). Ex.: 1 → 2 quando quiser "resetar" os previews.
+ */
+const PREVIEW_CACHE_VERSION = "2";
+
 function previewVersion(property: PropertyLike) {
   const mainImage = Array.isArray(property.images) && property.images.length > 0
     ? property.images[0]
     : property.image_url;
-  return hashText([property.updated_at, mainImage, property.title].filter(Boolean).join("|"));
+  return hashText(
+    [PREVIEW_CACHE_VERSION, property.updated_at, mainImage, property.title]
+      .filter(Boolean)
+      .join("|"),
+  );
 }
 
 /** Caminho para compartilhar; o v= força apps de preview a buscarem a versão atual. */
