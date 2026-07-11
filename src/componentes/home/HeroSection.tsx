@@ -24,15 +24,15 @@ export default function HeroSection() {
   const fallbackImage = heroMobileImage || heroImage;
 
   return (
-    // pt-18 = altura da navbar fixa: cola a foto logo abaixo dela.
+    // pt-16 = altura da navbar fixa (h-16 = 64px): cola a foto logo abaixo dela.
     // Sem altura fixa: a section acompanha a altura da foto (sem sobrar espaço).
     // min-h enquanto carrega só pra reservar espaço do shimmer; some quando a foto aparece.
     <section
-      className={`relative w-full bg-white pt-18 ${!loaded ? "min-h-[60vh]" : ""}`}
+      className={`relative w-full bg-white pt-16 ${!loaded ? "min-h-[60vh]" : ""}`}
     >
       {/* Efeito de carregamento (shimmer) enquanto a imagem não aparece */}
       {(!fallbackImage || !loaded) && (
-        <div className="absolute inset-x-0 top-18 bottom-0 skeleton" aria-hidden="true" />
+        <div className="absolute inset-x-0 top-16 bottom-0 skeleton" aria-hidden="true" />
       )}
 
       {fallbackImage && (
