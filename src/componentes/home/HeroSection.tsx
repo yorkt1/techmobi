@@ -35,7 +35,7 @@ export default function HeroSection() {
             <img
               src={fallbackImage}
               alt={heroAlt}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-contain object-center"
               draggable={false}
               loading="eager"
               fetchPriority="high"
