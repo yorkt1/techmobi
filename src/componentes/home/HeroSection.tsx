@@ -24,25 +24,30 @@ export default function HeroSection() {
   const fallbackImage = heroMobileImage || heroImage;
 
   return (
-    <section className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-white flex items-center justify-center">
+    // pt-18 = altura da navbar fixa: cola a foto logo abaixo dela.
+    // Sem altura fixa: a section acompanha a altura da foto (sem sobrar espaço).
+    // min-h enquanto carrega só pra reservar espaço do shimmer; some quando a foto aparece.
+    <section
+      className={`relative w-full bg-white pt-18 ${!loaded ? "min-h-[60vh]" : ""}`}
+    >
       {/* Efeito de carregamento (shimmer) enquanto a imagem não aparece */}
       {(!fallbackImage || !loaded) && (
-        <div className="absolute inset-0 skeleton" aria-hidden="true" />
+        <div className="absolute inset-x-0 top-18 bottom-0 skeleton" aria-hidden="true" />
       )}
 
       {fallbackImage && (
-        <picture className="w-full flex items-center justify-center">
+        <picture className="block w-full">
           {/* Desktop (>= 768px): imagem horizontal */}
           {heroImage && (
             <source media="(min-width: 768px)" srcSet={heroImage} />
           )}
           {/* Celular: imagem vertical (ou a horizontal, se não houver vertical).
-              w-full h-auto: nunca corta as laterais; se sobrar altura, o fundo branco preenche. */}
+              w-full h-auto: nunca corta as laterais e a section acompanha a altura da foto. */}
           <img
             src={fallbackImage}
             alt={heroAlt}
             onLoad={() => setLoaded(true)}
-            className={`w-full h-auto transition-opacity duration-700 ${
+            className={`block w-full h-auto transition-opacity duration-700 ${
               loaded ? "opacity-100" : "opacity-0"
             }`}
             draggable={false}
